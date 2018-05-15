@@ -1,6 +1,7 @@
 package com.plugyourcar.backend.model;
 
 import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -13,21 +14,21 @@ public class TipoUso implements Serializable {
 	private static final long serialVersionUID = 4527659972752401107L;
 
 	@Id
-	private int id;
+	private Integer id;
 	
 	private String nombre;
-	private boolean pagoEnDestino;
-	private boolean suscripcionRequerida;
-	private boolean claveAcceso;
+	private Boolean pagoEnDestino;
+	private Boolean suscripcionRequerida;
+	private Boolean claveAcceso;
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	
-	public void setId(int id) {
+
+	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -36,27 +37,28 @@ public class TipoUso implements Serializable {
 		this.nombre = nombre;
 	}
 	
-	public boolean isPagoEnDestino() {
+	public Boolean getPagoEnDestino() {
 		return pagoEnDestino;
 	}
 	
-	public void setPagoEnDestino(boolean pagoEnDestino) {
+	public void setPagoEnDestino(Boolean pagoEnDestino) {
 		this.pagoEnDestino = pagoEnDestino;
 	}
 	
-	public boolean isSuscripcionRequerida() {
+	public Boolean getSuscripcionRequerida() {
 		return suscripcionRequerida;
 	}
 	
-	public void setSuscripcionRequerida(boolean suscripcionRequerida) {
+	public void setSuscripcionRequerida(Boolean suscripcionRequerida) {
 		this.suscripcionRequerida = suscripcionRequerida;
 	}
 	
-	public boolean isClaveAcceso() {
+	public Boolean getClaveAcceso() {
 		return claveAcceso;
 	}
 	
-	public void setClaveAcceso(boolean claveAcceso) {
+	public void setClaveAcceso(Boolean claveAcceso) {
 		this.claveAcceso = claveAcceso;
 	}
+	
 }

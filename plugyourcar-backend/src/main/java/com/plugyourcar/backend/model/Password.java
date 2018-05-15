@@ -1,21 +1,33 @@
 package com.plugyourcar.backend.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 @Entity
-public class Password {
+public class Password implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9094120672573342631L;
+
 	@Id
-	private int id;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Integer id;
 	
+	@NotNull
 	private String passwordEncriptada;
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class TipoCorriente implements Serializable {
@@ -14,16 +15,17 @@ public class TipoCorriente implements Serializable {
 	private static final long serialVersionUID = 7828019704384035437L;
 
 	@Id
-	private int id;
+	private Integer id;
 	
+	@NotNull
 	private String nombre;
 	private String descripcion;
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	
@@ -43,7 +45,4 @@ public class TipoCorriente implements Serializable {
 		this.descripcion = descripcion;
 	}
 	
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 }

@@ -13,19 +13,19 @@ public class Operador implements Serializable {
 	private static final long serialVersionUID = -9113925340972823299L;
 
 	@Id
-	private int id;
+	private Integer id;
 	
 	private String nombre;
 	private String urlSitioWeb;
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	
-	public void setId(int id) {
+
+	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
 	public String getNombre() {
 		return nombre;
 	}

@@ -14,22 +14,22 @@ public class Localizacion implements Serializable {
 	private static final long serialVersionUID = -1085498877054815292L;
 
 	@Id
-	private int id;
+	private Integer id;
 	
 	private String nombre;
 	private String direccion;
 	private String localidad;
 	private String provincia;
 	private String codigoPostal;
-	private double latitud;
-	private double longitud;
+	private Double latitud;
+	private Double longitud;
 	private String telefonoContacto;
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	
@@ -73,19 +73,19 @@ public class Localizacion implements Serializable {
 		this.codigoPostal = codigoPostal;
 	}
 	
-	public double getLatitud() {
+	public Double getLatitud() {
 		return latitud;
 	}
 	
-	public void setLatitud(double latitud) {
+	public void setLatitud(Double latitud) {
 		this.latitud = latitud;
 	}
 	
-	public double getLongitud() {
+	public Double getLongitud() {
 		return longitud;
 	}
 	
-	public void setLongitud(double longitud) {
+	public void setLongitud(Double longitud) {
 		this.longitud = longitud;
 	}
 	
@@ -100,4 +100,5 @@ public class Localizacion implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
 }

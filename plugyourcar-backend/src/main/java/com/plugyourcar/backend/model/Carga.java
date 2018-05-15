@@ -4,7 +4,13 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Carga implements Serializable {
@@ -15,22 +21,33 @@ public class Carga implements Serializable {
 	private static final long serialVersionUID = -4055703750013940455L;
 
 	@Id
-	private int id;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Integer id;
 	
+	@NotNull
+	@ManyToOne(fetch=FetchType.LAZY)
 	private Usuario usuario;
-	private Conector conector;
-	private Reserva reserva;
-	private Timestamp horaInicio;
-	private Timestamp horaFin;
-	private boolean finalizada;
-	private boolean facturable;
-	private double cargoFactura;
 	
-	public int getId() {
+	@NotNull
+	@ManyToOne(fetch=FetchType.LAZY)
+	private Conector conector;
+	
+	@OneToOne(fetch=FetchType.LAZY)
+	private Reserva reserva;
+	
+	@NotNull
+	private Timestamp horaInicio;
+	
+	private Timestamp horaFin;
+	private Boolean finalizada;
+	private Boolean facturable;
+	private Double cargoFactura;
+	
+	public Integer getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	
@@ -74,27 +91,28 @@ public class Carga implements Serializable {
 		this.horaFin = horaFin;
 	}
 	
-	public boolean isFinalizada() {
+	public Boolean getFinalizada() {
 		return finalizada;
 	}
 	
-	public void setFinalizada(boolean finalizada) {
+	public void setFinalizada(Boolean finalizada) {
 		this.finalizada = finalizada;
 	}
 	
-	public boolean isFacturable() {
+	public Boolean getFacturable() {
 		return facturable;
 	}
 	
-	public void setFacturable(boolean facturable) {
+	public void setFacturable(Boolean facturable) {
 		this.facturable = facturable;
 	}
 	
-	public double getCargoFactura() {
+	public Double getCargoFactura() {
 		return cargoFactura;
 	}
 	
-	public void setCargoFactura(double cargoFactura) {
+	public void setCargoFactura(Double cargoFactura) {
 		this.cargoFactura = cargoFactura;
-	}	
+	}
+	
 }

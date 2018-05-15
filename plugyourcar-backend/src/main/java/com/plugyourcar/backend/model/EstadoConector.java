@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class EstadoConector implements Serializable {
@@ -14,15 +15,16 @@ public class EstadoConector implements Serializable {
 	private static final long serialVersionUID = -2404565595661638384L;
 
 	@Id
-	private int id;
+	private Integer id;
 	
+	@NotNull
 	private String descripcion;
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
