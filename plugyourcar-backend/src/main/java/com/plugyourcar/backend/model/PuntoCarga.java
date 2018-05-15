@@ -1,7 +1,6 @@
 package com.plugyourcar.backend.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -27,7 +26,6 @@ public class PuntoCarga implements Serializable {
 	private Localizacion localizacion;
 	private int numeroPuntos;
 	private String referenciaOperador;
-	private Timestamp fechaUltimaActualizacion;
 	private String costeUso;
 	
 	@OneToMany(mappedBy="puntoCarga",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
@@ -87,14 +85,6 @@ public class PuntoCarga implements Serializable {
 	
 	public void setReferenciaOperador(String referenciaOperador) {
 		this.referenciaOperador = referenciaOperador;
-	}
-	
-	public Timestamp getFechaUltimaActualizacion() {
-		return fechaUltimaActualizacion;
-	}
-	
-	public void setFechaUltimaActualizacion(Timestamp fechaUltimaActualizacion) {
-		this.fechaUltimaActualizacion = fechaUltimaActualizacion;
 	}
 	
 	public String getCosteUso() {

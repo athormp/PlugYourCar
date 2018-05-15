@@ -17,8 +17,7 @@ public class Localizacion implements Serializable {
 	private int id;
 	
 	private String nombre;
-	private String direccion1;
-	private String direccion2;
+	private String direccion;
 	private String localidad;
 	private String provincia;
 	private String codigoPostal;
@@ -42,20 +41,12 @@ public class Localizacion implements Serializable {
 		this.nombre = nombre;
 	}
 	
-	public String getDireccion1() {
-		return direccion1;
+	public String getDireccion() {
+		return direccion;
 	}
 	
-	public void setDireccion1(String direccion1) {
-		this.direccion1 = direccion1;
-	}
-	
-	public String getDireccion2() {
-		return direccion2;
-	}
-	
-	public void setDireccion2(String direccion2) {
-		this.direccion2 = direccion2;
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
 	}
 	
 	public String getLocalidad() {

@@ -23,7 +23,6 @@ public class Conector implements Serializable {
 	private PuntoCarga punto;
 	private int referencia;
 	private TipoConector tipoConector;
-	private int tipo;
 	private int amperaje;
 	private int voltaje;
 	private int potencia;
@@ -67,14 +66,6 @@ public class Conector implements Serializable {
 	
 	public void setTipoConector(TipoConector tipoConector) {
 		this.tipoConector = tipoConector;
-	}
-	
-	public int getTipo() {
-		return tipo;
-	}
-	
-	public void setTipo(int tipo) {
-		this.tipo = tipo;
 	}
 	
 	public int getAmperaje() {
