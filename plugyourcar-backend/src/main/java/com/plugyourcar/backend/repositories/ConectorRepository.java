@@ -6,5 +6,7 @@ import com.plugyourcar.backend.model.Conector;
 
 @Repository
 public interface ConectorRepository extends JpaRepository<Conector, Integer> {
-
+	
+	Conector findOne(Integer id);
+	
 }

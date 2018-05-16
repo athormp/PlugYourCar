@@ -1,11 +1,14 @@
 package com.plugyourcar.backend.model;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -36,6 +39,9 @@ public class EquipoSuministro implements Serializable {
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	private TipoCorriente tipoCorriente;
+	
+	@OneToMany(mappedBy="equipoSuministro",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	private List<Conector> Conectores;
 	
 	public Integer getId() {
 		return id;
@@ -107,5 +113,13 @@ public class EquipoSuministro implements Serializable {
 	
 	public void setTipoCorriente(TipoCorriente tipoCorriente) {
 		this.tipoCorriente = tipoCorriente;
+	}
+
+	public List<Conector> getConectores() {
+		return Conectores;
+	}
+
+	public void setConectores(List<Conector> conectores) {
+		Conectores = conectores;
 	}
 }

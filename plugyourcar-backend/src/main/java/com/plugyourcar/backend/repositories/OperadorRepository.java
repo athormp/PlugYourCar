@@ -6,5 +6,7 @@ import com.plugyourcar.backend.model.Operador;
 
 @Repository
 public interface OperadorRepository extends JpaRepository<Operador, Integer> {
-
+	
+	Operador findOne(Integer id);
+	
 }
