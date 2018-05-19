@@ -27,7 +27,7 @@ public class Conector implements Serializable{
 	private Integer id;
 	
 	@NotNull
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.EAGER)
 	private EquipoSuministro equipoSuministro;
 	
 	@NotNull

@@ -1,6 +1,7 @@
 package com.plugyourcar.backend.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -32,14 +33,19 @@ public class PuntoCarga implements Serializable {
 	@ManyToOne(fetch=FetchType.LAZY)
 	private TipoUso tipoUso;
 	
+	@ManyToOne(fetch=FetchType.LAZY)
+	private TipoEstado tipoEstado;
+	
 	@OneToOne(fetch=FetchType.LAZY)
 	private Localizacion localizacion;
 	
 	private Integer numeroPuntos;
 	private String referenciaOperador;
 	private String costeUso;
+	private Timestamp ultimaFechaActualizacion;
+	private Timestamp fechaCreacion;
 	
-	@OneToMany(mappedBy="puntoCarga",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="puntoCarga",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	private List<EquipoSuministro> equiposSuministro;
 
 	public Integer getId() {
@@ -74,6 +80,14 @@ public class PuntoCarga implements Serializable {
 		this.tipoUso = tipoUso;
 	}
 
+	public TipoEstado getTipoEstado() {
+		return tipoEstado;
+	}
+
+	public void setTipoEstado(TipoEstado tipoEstado) {
+		this.tipoEstado = tipoEstado;
+	}
+
 	public Localizacion getLocalizacion() {
 		return localizacion;
 	}
@@ -104,6 +118,22 @@ public class PuntoCarga implements Serializable {
 
 	public void setCosteUso(String costeUso) {
 		this.costeUso = costeUso;
+	}
+
+	public Timestamp getUltimaFechaActualizacion() {
+		return ultimaFechaActualizacion;
+	}
+
+	public void setUltimaFechaActualizacion(Timestamp ultimaFechaActualizacion) {
+		this.ultimaFechaActualizacion = ultimaFechaActualizacion;
+	}
+
+	public Timestamp getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+	public void setFechaCreacion(Timestamp fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
 	}
 
 	public List<EquipoSuministro> getEquiposSuministro() {

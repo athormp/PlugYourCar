@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class LocalizacionDTO {
 
 	@JsonProperty("ID")
-	private int id;
+	private Integer id;
 	@JsonProperty("Title")
 	private String nombre;
 	@JsonProperty("AddressLine1")
@@ -16,20 +16,20 @@ public class LocalizacionDTO {
 	private String localidad;
 	@JsonProperty("StateOrProvince")
 	private String provincia;
-	@JsonProperty("PostCode")
+	@JsonProperty("Postcode")
 	private String codigoPostal;
 	@JsonProperty("Latitude")
-	private double latitud;
+	private Double latitud;
 	@JsonProperty("Longitude")
-	private double longitud;
+	private Double longitud;
 	@JsonProperty("ContactTelephone1")
 	private String telefonoContacto;
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	
@@ -73,19 +73,19 @@ public class LocalizacionDTO {
 		this.codigoPostal = codigoPostal;
 	}
 	
-	public double getLatitud() {
+	public Double getLatitud() {
 		return latitud;
 	}
 	
-	public void setLatitud(double latitud) {
+	public void setLatitud(Double latitud) {
 		this.latitud = latitud;
 	}
 	
-	public double getLongitud() {
+	public Double getLongitud() {
 		return longitud;
 	}
 	
-	public void setLongitud(double longitud) {
+	public void setLongitud(Double longitud) {
 		this.longitud = longitud;
 	}
 	
@@ -96,4 +96,5 @@ public class LocalizacionDTO {
 	public void setTelefonoContacto(String telefonoContacto) {
 		this.telefonoContacto = telefonoContacto;
 	}
+	
 }

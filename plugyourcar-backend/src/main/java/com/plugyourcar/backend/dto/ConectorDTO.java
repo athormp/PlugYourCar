@@ -7,83 +7,83 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ConectorDTO {
 
 		@JsonProperty("ID")
-		private int id;
+		private Integer id;
 		@JsonProperty("ConnectionTypeID")
-		private int tipoConector;
+		private Integer tipoConector;
 		@JsonProperty("Amps")
-		private int amperaje;
+		private Integer amperaje;
 		@JsonProperty("Voltage")
-		private int voltaje;
+		private Integer voltaje;
 		@JsonProperty("PowerKW")
-		private int potencia;
+		private Double potencia;
 		@JsonProperty("LevelID")
-		private int tipoCargador;
+		private Integer tipoCargador;
 		@JsonProperty("CurrentTypeID")
-		private int tipoCorriente;
+		private Integer tipoCorriente;
 		@JsonProperty("Quantity")
-		private int quantity;
+		private Integer quantity;
 		
-		public int getId() {
+		public Integer getId() {
 			return id;
 		}
 		
-		public void setId(int id) {
+		public void setId(Integer id) {
 			this.id = id;
 		}
 		
-		public int getTipoConector() {
+		public Integer getTipoConector() {
 			return tipoConector;
 		}
 		
-		public void setTipoConector(int tipoConector) {
+		public void setTipoConector(Integer tipoConector) {
 			this.tipoConector = tipoConector;
 		}
 		
-		public int getAmperaje() {
+		public Integer getAmperaje() {
 			return amperaje;
 		}
 		
-		public void setAmperaje(int amperaje) {
+		public void setAmperaje(Integer amperaje) {
 			this.amperaje = amperaje;
 		}
 		
-		public int getVoltaje() {
+		public Integer getVoltaje() {
 			return voltaje;
 		}
 		
-		public void setVoltaje(int voltaje) {
+		public void setVoltaje(Integer voltaje) {
 			this.voltaje = voltaje;
 		}
 		
-		public int getPotencia() {
+		public Double getPotencia() {
 			return potencia;
 		}
 		
-		public void setPotencia(int potencia) {
+		public void setPotencia(Double potencia) {
 			this.potencia = potencia;
 		}
 		
-		public int getTipoCargador() {
+		public Integer getTipoCargador() {
 			return tipoCargador;
 		}
 		
-		public void setTipoCargador(int tipoCargador) {
+		public void setTipoCargador(Integer tipoCargador) {
 			this.tipoCargador = tipoCargador;
 		}
 		
-		public int getTipoCorriente() {
+		public Integer getTipoCorriente() {
 			return tipoCorriente;
 		}
 		
-		public void setTipoCorriente(int tipoCorriente) {
+		public void setTipoCorriente(Integer tipoCorriente) {
 			this.tipoCorriente = tipoCorriente;
 		}
-
-		public int getQuantity() {
+		
+		public Integer getQuantity() {
 			return quantity;
 		}
-
-		public void setQuantity(int quantity) {
+		
+		public void setQuantity(Integer quantity) {
 			this.quantity = quantity;
 		}
 

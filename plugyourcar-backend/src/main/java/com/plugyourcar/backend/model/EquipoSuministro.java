@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class EquipoSuministro implements Serializable {
@@ -22,7 +23,8 @@ public class EquipoSuministro implements Serializable {
 	@Id
 	private Integer id;
 	
-	@OneToOne(fetch=FetchType.LAZY)
+	@NotNull
+	@OneToOne(fetch=FetchType.EAGER)
 	private PuntoCarga puntoCarga;
 	
 	private Integer referencia;

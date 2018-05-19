@@ -7,7 +7,5 @@ import com.plugyourcar.backend.model.TipoCargador;
 
 @Repository
 public interface TipoCargadorRepository extends JpaRepository<TipoCargador, Integer> {
-
-	TipoCargador findOne(Integer id);
 	
 }

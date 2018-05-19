@@ -1,10 +1,11 @@
 package com.plugyourcar.backend;
 
 import javax.ws.rs.core.Application;
-import org.modelmapper.ModelMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,8 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 @EnableScheduling
 @SpringBootApplication
+@EnableAutoConfiguration
+
 public class PlugyourcarBackendApplication {
 	
 	private static final Logger log = LoggerFactory.getLogger(Application.class);
@@ -23,6 +26,7 @@ public class PlugyourcarBackendApplication {
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {
 	    return builder.build();
 	 }
+
 //
 //	@Bean
 //	public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
@@ -32,11 +36,6 @@ public class PlugyourcarBackendApplication {
 //			log.debug(puntosCargaDTO.toString());
 //		};
 //	}
-	
-	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
-	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(PlugyourcarBackendApplication.class, args);
