@@ -1,0 +1,8 @@
+{
+  "name": "plugYourCar-App",
+  "app_id": "1364a508",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
