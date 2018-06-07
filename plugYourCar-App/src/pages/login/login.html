@@ -1,0 +1,30 @@
+<ion-header>
+<app-header></app-header>
+</ion-header>
+<ion-content resize padding id="login">
+    <img src="assets/imgs/logo.png" class="logo"/>
+    <ion-list>
+      <ion-item>
+          <ion-label color="secondary" stacked>DNI/NIE</ion-label>
+          <ion-input placeholder="DNI/NIE"></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-label color="secondary" stacked>Password</ion-label>
+          <ion-input placeholder="Password"></ion-input>
+      </ion-item>
+    </ion-list>
+  
+    <ion-grid >
+      <ion-row>
+        <ion-col center text-center>
+          <button ion-button full color="secondary" (click)="login()">Login</button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col center text-center>
+          <a href>¿Aún no estás registrado?</a>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+  
