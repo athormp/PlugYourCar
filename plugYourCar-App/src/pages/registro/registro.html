@@ -1,0 +1,115 @@
+<ion-header>
+    <app-header></app-header>
+</ion-header>
+<ion-content resize no-bounce padding id="registro">
+    <form [formGroup]="registroForm">
+
+        <ion-item>
+            <ion-label color="secondary" stacked>NIF/NIE</ion-label>
+            <ion-input [formControl]="registroForm.controls['dni']" type="text" placeholder="NIF/NIE"></ion-input>
+        </ion-item>
+
+        <ng-container *ngFor="let validacion of mensajes_validacion['dni']">
+            <p class="error-message" padding-left *ngIf="registroForm.get('dni').hasError(validacion.type) && (registroForm.get('dni').dirty || registroForm.get('dni').touched)">
+                {{ validacion.message }}
+            </p>
+        </ng-container>
+
+        <ion-item>
+            <ion-label color="secondary" stacked>Nombre</ion-label>
+            <ion-input [formControl]="registroForm.controls['nombre']" type="text" placeholder="Nombre"></ion-input>
+        </ion-item>
+
+        <ng-container *ngFor="let validacion of mensajes_validacion['nombre']">
+            <p class="error-message" padding-left *ngIf="registroForm.get('nombre').hasError(validacion.type) && (registroForm.get('nombre').dirty || registroForm.get('nombre').touched)">
+                {{ validacion.message }}
+            </p>
+        </ng-container>
+
+        <ion-item>
+            <ion-label color="secondary" stacked>Apellidos</ion-label>
+            <ion-input [formControl]="registroForm.controls['apellidos']" type="text" placeholder="Apellidos"></ion-input>
+        </ion-item>
+
+        <ng-container *ngFor="let validacion of mensajes_validacion['apellidos']">
+            <p class="error-message" padding-left *ngIf="registroForm.get('apellidos').hasError(validacion.type) && (registroForm.get('apellidos').dirty || registroForm.get('apellidos').touched)">
+                {{ validacion.message }}
+            </p>
+        </ng-container>
+
+        <ion-item>
+            <ion-label color="secondary" stacked>Email</ion-label>
+            <ion-input [formControl]="registroForm.controls['email']" type="email" placeholder="Email"></ion-input>
+        </ion-item>
+
+        <ng-container *ngFor="let validacion of mensajes_validacion['email']">
+            <p class="error-message" padding-left *ngIf="registroForm.get('email').hasError(validacion.type) && (registroForm.get('email').dirty || registroForm.get('email').touched)">
+                {{ validacion.message }}
+            </p>
+        </ng-container>
+
+        <ion-item>
+            <ion-label color="secondary" stacked>Teléfono Contacto</ion-label>
+            <ion-input [formControl]="registroForm.controls['telefonoContacto']" type="text" placeholder="Teléfono contacto"></ion-input>
+        </ion-item>
+
+        <ng-container *ngFor="let validacion of mensajes_validacion['telefonoContacto']">
+            <p class="error-message" padding-left *ngIf="registroForm.get('telefonoContacto').hasError(validacion.type) && (registroForm.get('telefonoContacto').dirty || registroForm.get('telefonoContacto').touched)">
+                {{ validacion.message }}
+            </p>
+        </ng-container>
+
+        <ion-item>
+            <ion-label color="secondary" stacked>Marca Vehículo</ion-label>
+            <ion-input [formControl]="registroForm.controls['marcaVehiculo']" type="text" placeholder="Marca vehículo"></ion-input>
+        </ion-item>
+
+        <div [formGroup]="grupo_passwords">
+            <ion-item>
+                <ion-label color="secondary" stacked>Password</ion-label>
+                <ion-input [formControl]="grupo_passwords.controls['password']" type="password"></ion-input>
+            </ion-item>
+
+            <ng-container *ngFor="let validacion of mensajes_validacion['password']">
+                <p class="error-message" padding-left *ngIf="registroForm.get('passwords_coincidentes').get('password').hasError(validacion.type) && (registroForm.get('passwords_coincidentes').get('password').dirty || registroForm.get('passwords_coincidentes').get('password2').touched)">
+                    {{ validacion.message }}
+                </p>
+            </ng-container>
+
+            <ion-item>
+                <ion-label color="secondary" stacked>Repita Password</ion-label>
+                <ion-input [formControl]="grupo_passwords.controls['password2']" type="password"></ion-input>
+            </ion-item>
+            <ng-container *ngFor="let validacion of mensajes_validacion['password2']">
+                <p class="error-message" padding-left *ngIf="registroForm.get('passwords_coincidentes').get('password2').hasError(validacion.type) && (registroForm.get('passwords_coincidentes').get('password2').dirty || registroForm.get('passwords_coincidentes').get('password2').touched)">
+                    {{ validacion.message }}
+                </p>
+            </ng-container>
+            <!-- These validations are for the form group -->
+            <ng-container *ngFor="let validacion of mensajes_validacion['passwords_coincidentes']">
+                <div class="error-message" padding-left *ngIf="registroForm.get('passwords_coincidentes').hasError(validacion.type) && (registroForm.get('passwords_coincidentes').get('password2').dirty || registroForm.get('passwords_coincidentes').get('password2').touched)">
+                    {{ validacion.message }}
+                </div>
+            </ng-container>
+        </div>
+
+        <ion-row class="sign-up-button-container">
+            <ion-col text-center>
+                <button ion-button block color="secondary" [disabled]="!registroForm.valid" (click)="registrar()">
+                    Registrar
+                </button>
+            </ion-col>
+        </ion-row>
+
+        <!-- <ion-row>
+          <ion-col text-center>
+            <button ion-button clear color="light"
+                (click)="recordarPassword()">
+                ¿Olvidaste tu contraseña?
+            </button>
+          </ion-col>
+        </ion-row> -->
+
+    </form>
+
+</ion-content>
