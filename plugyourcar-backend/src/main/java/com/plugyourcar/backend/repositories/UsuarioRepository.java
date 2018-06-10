@@ -8,4 +8,7 @@ import com.plugyourcar.backend.model.Usuario;
 @Repository
 public interface UsuarioRepository extends CrudRepository<Usuario, Integer> {
 
+	Usuario findByUserName(String dni);
+	Usuario findByEmail(String email);
+
 }

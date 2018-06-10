@@ -3,17 +3,20 @@ package com.plugyourcar.backend.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 @Configuration
 @EnableAuthorizationServer
+
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
 	static final String CLIENT_ID = "plugYourCar-client";
@@ -31,6 +34,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
+	@Bean
+    @Primary
+    public DefaultTokenServices tokenServices() {
+        final DefaultTokenServices tokenServices = new DefaultTokenServices();
+        tokenServices.setTokenStore(tokenStore());
+        tokenServices.setSupportRefreshToken(true);
+        return tokenServices;
+    }	      
+	
 	@Bean
 	public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
@@ -52,8 +64,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 				.secret(CLIENT_SECRET)
 				.authorizedGrantTypes(GRANT_TYPE_PASSWORD, AUTHORIZATION_CODE, REFRESH_TOKEN, IMPLICIT )
 				.scopes(SCOPE_READ, SCOPE_WRITE, TRUST)
-				.accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS).
-				refreshTokenValiditySeconds(FREFRESH_TOKEN_VALIDITY_SECONDS);
+				.accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS)
+				.refreshTokenValiditySeconds(FREFRESH_TOKEN_VALIDITY_SECONDS);
 	}
 
 	@Override

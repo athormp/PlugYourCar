@@ -1,20 +1,22 @@
 package com.plugyourcar.backend.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-public class Usuario implements Serializable {
+public class Usuario implements Serializable, UserDetails {
 
 	/**
 	 * 
@@ -25,16 +27,14 @@ public class Usuario implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 	
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
-	private Password password;
-	
+	private String password;
 	private String nombre;
 	private String apellidos;
 	private String email;
-	private String dni_nie;
+	private String userName;
 	private String telefonoContacto;
 	private String marcaVehiculo;
+	private String role;
 	
 	@OneToMany(mappedBy="usuario",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	private List<Login> logins;
@@ -52,12 +52,13 @@ public class Usuario implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-	public Password getPassword() {
+	
+	@Override
+	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(Password password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
@@ -85,12 +86,13 @@ public class Usuario implements Serializable {
 		this.email = email;
 	}
 
-	public String getDni_nie() {
-		return dni_nie;
+	@Override
+	public String getUsername() {
+		return this.userName;
 	}
 
-	public void setDni_nie(String dni_nie) {
-		this.dni_nie = dni_nie;
+	public void setUserName(String dniNie) {
+		this.userName = dniNie;
 	}
 
 	public String getTelefonoContacto() {
@@ -131,6 +133,37 @@ public class Usuario implements Serializable {
 
 	public void setCargas(List<Carga> cargas) {
 		this.cargas = cargas;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		Collection<GrantedAuthority> authorities = new ArrayList<>();
+		authorities.add(new SimpleGrantedAuthority(role));
+		return authorities;
+	}
+	
+	public void setRole(String role){
+		this.role = role;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 	
 }

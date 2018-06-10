@@ -28,7 +28,7 @@ public class ScheduledTasks {
 	private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
 	 
 	@Transactional
-	@Scheduled(fixedRate = 60000)
+	@Scheduled(fixedRate = 3600000)
 	public void loadPOIFromOCM() {
 		log.debug("Llamada REST");
 		PuntoCargaDTO[] puntosCargaDTO = restTemplate.getForObject("http://api.openchargemap.io/v2/poi/?output=json&countrycode=ES&maxresults=1000&compact=true&verbose=false&includecomments=false&opendata=true", PuntoCargaDTO[].class);
