@@ -5,10 +5,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.plugyourcar.backend.dto.UsuarioDTO;
-import com.plugyourcar.backend.exceptions.EmailExistsException;
-import com.plugyourcar.backend.exceptions.UserNameExistsException;
+import com.plugyourcar.backend.exceptions.UserNameOrEmailExistsException;
 import com.plugyourcar.backend.services.UsuarioService;
 
 @RestController
@@ -24,7 +22,7 @@ public class UsuarioController {
     }*/
 
     @RequestMapping(value = "/registro", method = RequestMethod.POST)
-    public void create(@RequestBody UsuarioDTO usuario) throws EmailExistsException, UserNameExistsException {
+    public void create(@RequestBody UsuarioDTO usuario) throws UserNameOrEmailExistsException {
         usuarioService.registrarUsuario(usuario);
     }
 

@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,8 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.plugyourcar.backend.dto.UsuarioDTO;
-import com.plugyourcar.backend.exceptions.EmailExistsException;
-import com.plugyourcar.backend.exceptions.UserNameExistsException;
+import com.plugyourcar.backend.exceptions.UserNameOrEmailExistsException;
 import com.plugyourcar.backend.model.Usuario;
 import com.plugyourcar.backend.repositories.UsuarioRepository;
 import com.plugyourcar.backend.services.UsuarioService;
@@ -29,6 +30,8 @@ public class UsuarioServiceImpl implements UserDetailsService, UsuarioService {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
+	private static final Logger log = LoggerFactory.getLogger(PuntosCargaLoaderServiceImpl.class);
+	
 	@Override
 	public UserDetails loadUserByUsername(String dniNie) throws UsernameNotFoundException {
 		Usuario usuario = usuarioRepository.findByUserName(dniNie);
@@ -40,23 +43,36 @@ public class UsuarioServiceImpl implements UserDetailsService, UsuarioService {
 
 	@Transactional
 	@Override
-	public Usuario registrarUsuario(UsuarioDTO usuarioDTO) throws EmailExistsException, UserNameExistsException{
-		if (emailExist(usuarioDTO.getEmail())) {   
-            throw new EmailExistsException(
-              "Existe una cuenta con la misma dirección de correo: "  + usuarioDTO.getEmail());
+	public Usuario registrarUsuario(UsuarioDTO usuarioDTO) throws UserNameOrEmailExistsException {
+		
+		StringBuilder errorMessage = new StringBuilder();
+		boolean emailExists = emailExist(usuarioDTO.getEmail());
+		boolean userNameExists = userNameExist(usuarioDTO.getDni());
+		if (emailExists) {  
+			log.info("Existe un usuario con la misma dirección de correo: "  + usuarioDTO.getEmail());
+			errorMessage = errorMessage.append("Existe un usuario con la misma dirección de correo: "  + usuarioDTO.getEmail());
+		
         }
 		
-		if (userNameExist(usuarioDTO.getEmail())) {   
-            throw new UserNameExistsException(
-              "Existe un usuario con el mismo DNI/NIE: "  + usuarioDTO.getDni());
+		if (userNameExists) { 
+			if(!errorMessage.equals(""))
+				errorMessage = errorMessage.append(" / ");
+			log.info("Existe un usuario con el mismo DNI/NIE: "  + usuarioDTO.getDni());
+			errorMessage = errorMessage.append("Existe un usuario con el mismo DNI/NIE: "  + usuarioDTO.getDni());
         }
+		
+		
+		if (emailExists || userNameExists) {
+			throw new UserNameOrEmailExistsException(usuarioDTO.getDni(), errorMessage);
+		}
 		
         Usuario usuario = new Usuario();    
         usuario.setUserName(usuarioDTO.getDni());
         usuario.setNombre(usuarioDTO.getNombre());
         usuario.setApellidos(usuarioDTO.getApellidos());
+        usuario.setEmail(usuarioDTO.getEmail());
         usuario.setTelefonoContacto(usuarioDTO.getTelefonoContacto());
-        if (usuarioDTO.getMarcaVehiculo() != null) {
+        if (usuarioDTO.getMarcaVehiculo() != null && !usuarioDTO.getMarcaVehiculo().equals("")) {
         	usuario.setMarcaVehiculo(usuarioDTO.getMarcaVehiculo());
         }
         usuario.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
