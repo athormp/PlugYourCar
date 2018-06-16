@@ -1,4 +1,4 @@
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 
 export class DniValidator {
 
@@ -9,7 +9,6 @@ export class DniValidator {
             return null;  
         let numero, letraDni, letra;
         var expresion_regular_dni = /^[XYZ]?\d{5,8}[A-Z]$/;
-        var result;
         let value = formControl.value.toUpperCase();
         console.log(value);
         if (expresion_regular_dni.test(value) === true) {

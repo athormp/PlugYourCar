@@ -1,30 +1,50 @@
 <ion-header>
-<app-header></app-header>
+  <app-header></app-header>
 </ion-header>
 <ion-content resize padding id="login">
-    <img src="assets/imgs/logo.png" class="logo"/>
+  <img src="assets/imgs/logo.png" class="logo" />
+  <form [formGroup]="loginForm">
+
+    <ng-container>
+      <p class="error-message" padding-left *ngIf="errorResponse">
+        {{ mensajeResultado }}
+      </p>
+      <p class="success-message" padding-left *ngIf="successResponse">
+        {{ mensajeResultado }}
+      </p>
+    </ng-container>
     <ion-list>
       <ion-item>
-          <ion-label color="secondary" stacked>DNI/NIE</ion-label>
-          <ion-input placeholder="DNI/NIE"></ion-input>
+        <ion-label color="secondary" stacked>DNI/NIE</ion-label>
+        <ion-input [formControl]="loginForm.controls['dniNie']" type="text" placeholder="DNI"></ion-input>
       </ion-item>
+      <ng-container *ngFor="let validacion of mensajes_validacion['dniNie']">
+        <p class="error-message" padding-left *ngIf="(loginForm.get('dniNie').hasError(validacion.type) && (loginForm.get('dniNie').dirty || loginForm.get('dniNie').touched))">
+          {{ validacion.message }}
+        </p>
+      </ng-container>
       <ion-item>
-          <ion-label color="secondary" stacked>Password</ion-label>
-          <ion-input placeholder="Password"></ion-input>
+        <ion-label color="secondary" stacked>Password</ion-label>
+        <ion-input [formControl]="loginForm.controls['password']" type="password" placeholder="Password"></ion-input>
       </ion-item>
+      <ng-container *ngFor="let validacion of mensajes_validacion['password']">
+        <p class="error-message" padding-left *ngIf="(loginForm.get('password').hasError(validacion.type) && (loginForm.get('password').dirty || loginForm.get('password').touched))">
+          {{ validacion.message }}
+        </p>
+      </ng-container>
     </ion-list>
-  
-    <ion-grid >
-      <ion-row>
-        <ion-col center text-center>
-          <button ion-button full color="secondary" (click)="login()">Login</button>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col center text-center>
-          <a href>¿Aún no estás registrado?</a>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-content>
-  
+  </form>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col center text-center>
+        <button ion-button full color="secondary" (click)="login()">Login</button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col center text-center>
+        <a [navPush]="paginaEnlazada">¿Aún no estás registrado?</a>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

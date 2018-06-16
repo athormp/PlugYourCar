@@ -4,13 +4,22 @@
 <ion-content resize no-bounce padding id="registro">
     <form [formGroup]="registroForm">
 
+        <ng-container>
+            <p class="error-message" padding-left *ngIf="errorResponse">
+                {{ mensajeResultado }}
+            </p>
+            <p class="success-message" padding-left *ngIf="successResponse">
+                {{ mensajeResultado }}
+            </p>
+        </ng-container>
+
         <ion-item>
             <ion-label color="secondary" stacked>NIF/NIE</ion-label>
             <ion-input [formControl]="registroForm.controls['dni']" type="text" placeholder="NIF/NIE"></ion-input>
         </ion-item>
 
         <ng-container *ngFor="let validacion of mensajes_validacion['dni']">
-            <p class="error-message" padding-left *ngIf="registroForm.get('dni').hasError(validacion.type) && (registroForm.get('dni').dirty || registroForm.get('dni').touched)">
+            <p class="error-message" padding-left *ngIf="(registroForm.get('dni').hasError(validacion.type) && (registroForm.get('dni').dirty || registroForm.get('dni').touched))">
                 {{ validacion.message }}
             </p>
         </ng-container>

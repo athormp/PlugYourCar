@@ -3,8 +3,9 @@ import { Usuario } from './../usuario/usuario.model';
 import { DniValidator } from './../../validators/DniValidator';
 import { PasswordValidator } from './../../validators/PasswordValidator';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { FormBuilder, FormGroup, Validators, FormControl, ValidationErrors } from '@angular/forms';
+import { NavController, NavParams } from 'ionic-angular';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { LoginPage } from '../login/login';
 
 @Component({
   selector: 'registro',
@@ -16,11 +17,13 @@ export class RegistroPage {
   usuario: Usuario;
   mensajes_validacion;
   grupo_passwords;
+  errorResponse: boolean;
+  successResponse: boolean;
+  mensajeResultado: string;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private formBuilder: FormBuilder, private registroService: RegistroService) {
-
     this.grupo_passwords = new FormGroup({
       password: new FormControl(
         '', Validators.compose([
@@ -58,7 +61,7 @@ export class RegistroPage {
       'dni': [
         { type: 'required', message: 'Campo obligatorio' },
         { type: 'minlength', message: 'El DNI debe contener 9 caracteres' },
-        { type: 'validar', message: 'El DNI introducido no es correcto' }
+        { type: 'validar', message: 'El DNI introducido no es correcto' },
       ],
       'nombre': [
         { type: 'required', message: 'Campo obligatorio' }
@@ -101,13 +104,24 @@ export class RegistroPage {
     this.usuario.telefonoContacto = this.registroForm.controls.telefonoContacto.value;
     this.usuario.marcaVehiculo = this.registroForm.controls.marcaVehiculo.value;
     this.usuario.password = this.grupo_passwords.controls.password.value;
+    console.log("Entro");
     this.registroService.registrar(this.usuario).subscribe(
-       data => { 
-         console.log(data)
-       }, 
-       error => { 
-         console.log(error)
-       }
-    );
+      data => {
+        console.log(data);
+        this.successResponse = true;
+        this.mensajeResultado = "Su usuario ha sido creado con éxito";
+        setTimeout(() => {
+          this.navCtrl.setRoot(LoginPage);
+        },
+          5000);
+      },
+      error => {
+        console.log(error)
+        if (error.error.errorCode === "1001") {
+          console.log(error.error.errorMessage);
+          this.errorResponse = true;
+          this.mensajeResultado = error.error.errorMessage;
+        }
+      });
   }
 }

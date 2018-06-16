@@ -1,29 +1,48 @@
+import { RegistroService } from './../pages/registro/registro.service';
+import { AuthService } from './../pages/login/auth.service';
+import { TokenStorage } from './../pages/login/token.storage';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-
-import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
+import { PlugYourCarApp } from './app.component';
+import { HeaderComponent } from '../pages/header/header';
+import { LoginPage } from '../pages/login/login';
+import { LocalizacionPage } from '../pages/localizacion/localizacion';
+import { GestionCargaPage } from '../pages/gestionCarga/gestionCarga';
+import { RegistroPage } from '../pages/registro/registro';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
-    MyApp,
-    HomePage
+    PlugYourCarApp,
+    HeaderComponent,
+    LoginPage,
+    LocalizacionPage,
+    GestionCargaPage,
+    RegistroPage
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    HttpClientModule,
+    IonicModule.forRoot(PlugYourCarApp)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    HomePage
+    PlugYourCarApp,
+    HeaderComponent,
+    LoginPage,
+    LocalizacionPage,
+    GestionCargaPage,
+    RegistroPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    RegistroService,
+    AuthService,
+    TokenStorage,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
