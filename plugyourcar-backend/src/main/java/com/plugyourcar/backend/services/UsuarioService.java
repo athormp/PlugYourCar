@@ -6,6 +6,6 @@ import com.plugyourcar.backend.model.Usuario;
 
 public interface UsuarioService {
 	
-	Usuario registrarUsuario(UsuarioDTO usuario) throws UserNameOrEmailExistsException;
+	Usuario registrarUsuario(UsuarioDTO usuarioDTO) throws UserNameOrEmailExistsException;
 	
 }

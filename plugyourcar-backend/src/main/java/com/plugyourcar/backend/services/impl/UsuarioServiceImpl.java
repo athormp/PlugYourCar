@@ -21,22 +21,23 @@ import com.plugyourcar.backend.model.Usuario;
 import com.plugyourcar.backend.repositories.UsuarioRepository;
 import com.plugyourcar.backend.services.UsuarioService;
 
-@Service(value = "userService")
+@Service(value = "usuarioService")
 public class UsuarioServiceImpl implements UserDetailsService, UsuarioService {
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
 	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
+	private BCryptPasswordEncoder passwordEncoder;	
 	
 	private static final Logger log = LoggerFactory.getLogger(PuntosCargaLoaderServiceImpl.class);
 	
 	@Override
-	public UserDetails loadUserByUsername(String dniNie) throws UsernameNotFoundException {
-		Usuario usuario = usuarioRepository.findByUserName(dniNie);
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Usuario usuario = usuarioRepository.findByUserName(username);
 		if(usuario == null){
-			throw new UsernameNotFoundException("Nombre de usuario o password incorrectos.");
+			log.info("Nombre de usuario o password incorrecto");
+			throw new UsernameNotFoundException("Nombre de usuario o password incorrecto");
 		}
 		return new org.springframework.security.core.userdetails.User(usuario.getUsername(), usuario.getPassword(), getAuthority());
 	}

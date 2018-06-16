@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -24,7 +25,7 @@ import org.springframework.web.filter.CorsFilter;
 
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Resource(name = "userService")
+    @Resource(name = "usuarioService")
     private UserDetailsService userDetailsService;
 
     @Override
@@ -45,7 +46,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .anonymous().disable()
                 .authorizeRequests()
-                .antMatchers("/api-docs/**").permitAll();
+                .antMatchers("/usuarios/registro").permitAll()
+                .antMatchers("/oauth/token").permitAll()
+                .antMatchers("/localizaciones/**").permitAll()
+                .anyRequest().authenticated();
     }
 
     @Bean
@@ -63,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
         FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
-        bean.setOrder(0);
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return bean;
     }
 }
