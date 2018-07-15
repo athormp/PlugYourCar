@@ -27,9 +27,8 @@ export class RegistroPage {
     this.grupo_passwords = new FormGroup({
       password: new FormControl(
         '', Validators.compose([
-          Validators.minLength(8),
           Validators.required,
-          Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
+          Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)
         ])),
       password2: new FormControl(
         '', Validators.required
@@ -48,7 +47,7 @@ export class RegistroPage {
       nombre: ['', Validators.required],
       apellidos: ['', Validators.required],
       email: ['', Validators.compose([
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
+        Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/),
         Validators.required
       ])
       ],
@@ -104,7 +103,6 @@ export class RegistroPage {
     this.usuario.telefonoContacto = this.registroForm.controls.telefonoContacto.value;
     this.usuario.marcaVehiculo = this.registroForm.controls.marcaVehiculo.value;
     this.usuario.password = this.grupo_passwords.controls.password.value;
-    console.log("Entro");
     this.registroService.registrar(this.usuario).subscribe(
       data => {
         console.log(data);

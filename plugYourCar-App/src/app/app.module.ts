@@ -1,3 +1,4 @@
+import { Geolocation } from '@ionic-native/geolocation';
 import { RegistroService } from './../pages/registro/registro.service';
 import { AuthService } from './../pages/login/auth.service';
 import { TokenStorage } from './../pages/login/token.storage';
@@ -13,6 +14,8 @@ import { LocalizacionPage } from '../pages/localizacion/localizacion';
 import { GestionCargaPage } from '../pages/gestionCarga/gestionCarga';
 import { RegistroPage } from '../pages/registro/registro';
 import { HttpClientModule } from '@angular/common/http';
+import { JwtModule } from '@auth0/angular-jwt';
+import { GoogleMaps } from '@ionic-native/google-maps';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,7 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     BrowserModule,
     HttpClientModule,
-    IonicModule.forRoot(PlugYourCarApp)
+    IonicModule.forRoot(PlugYourCarApp),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -43,6 +46,8 @@ import { HttpClientModule } from '@angular/common/http';
     RegistroService,
     AuthService,
     TokenStorage,
+    Geolocation,
+    GoogleMaps,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

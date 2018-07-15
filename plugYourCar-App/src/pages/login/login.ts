@@ -7,6 +7,7 @@ import { TokenStorage } from './token.storage';
 import { RegistroPage } from '../registro/registro';
 import { LocalizacionPage } from '../localizacion/localizacion';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { LoadingController } from 'ionic-angular';
 
 @Component({
   selector: 'login',
@@ -21,7 +22,7 @@ export class LoginPage {
   successResponse: boolean;
   mensajeResultado: string;
 
-  constructor(public navCtrl: NavController, private authService: AuthService, private token: TokenStorage) {
+  constructor(public navCtrl: NavController, private authService: AuthService, private token: TokenStorage, public loadingCtrl: LoadingController) {
     this.paginaEnlazada = RegistroPage;
     this.loginForm = new FormGroup({
       dniNie: new FormControl(
@@ -47,9 +48,14 @@ export class LoginPage {
     this.successResponse = false;
     this.authService.autenticar(this.loginForm.controls.dniNie.value, this.loginForm.controls.password.value).subscribe(
       data => {
-        this.token.guardarToken(data.token);
+        this.token.guardarToken(data.access_token);
         this.successResponse = true;
         this.mensajeResultado = "Login correcto, redirigiendo";
+        const loader = this.loadingCtrl.create({
+          content: "Please wait...",
+          duration: 3000
+        });
+        loader.present();
         setTimeout(() => {
           this.navCtrl.setRoot(LocalizacionPage);
         },
