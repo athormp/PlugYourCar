@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -29,6 +30,10 @@ public class Usuario implements Serializable, UserDetails {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
+	
+	@NotNull
+	@OneToOne(fetch=FetchType.EAGER)
+	private Saldo saldo;
 	
 	@NotNull
 	private String password;
@@ -69,6 +74,14 @@ public class Usuario implements Serializable, UserDetails {
 		this.id = id;
 	}
 	
+	public Saldo getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(Saldo saldo) {
+		this.saldo = saldo;
+	}
+
 	@Override
 	public String getPassword() {
 		return password;

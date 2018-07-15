@@ -23,7 +23,6 @@ public class Login implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 
-	@NotNull
 	@ManyToOne(fetch=FetchType.LAZY)
 	private Usuario usuario;
 	
