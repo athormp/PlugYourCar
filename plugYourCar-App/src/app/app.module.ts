@@ -1,6 +1,7 @@
 import { Geolocation } from '@ionic-native/geolocation';
 import { RegistroService } from './../pages/registro/registro.service';
 import { AuthService } from './../pages/login/auth.service';
+import { LocalizacionService } from './../pages/localizacion/localizacion.service';
 import { TokenStorage } from './../pages/login/token.storage';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
@@ -45,6 +46,7 @@ import { GoogleMaps } from '@ionic-native/google-maps';
     SplashScreen,
     RegistroService,
     AuthService,
+    LocalizacionService,
     TokenStorage,
     Geolocation,
     GoogleMaps,

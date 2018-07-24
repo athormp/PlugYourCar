@@ -1,6 +1,6 @@
-import { Observable } from 'rxjs/Observable';
+import { Constants } from './../../constants/constants';
 import { Component, NgZone } from '@angular/core';
-import { Geolocation, GeolocationOptions, Geoposition } from '@ionic-native/geolocation';
+import { Geolocation, GeolocationOptions } from '@ionic-native/geolocation';
 import {
   GoogleMaps,
   GoogleMap,
@@ -8,9 +8,9 @@ import {
   LatLng,
   CameraPosition,
   MarkerOptions,
-  GoogleMapsMapTypeId,
-  Geocoder
 } from '@ionic-native/google-maps';
+import { LocalizacionService } from './localizacion.service';
+import { Posicion } from '../../model/posicion.model';
 
 declare var google;
 
@@ -29,9 +29,18 @@ export class LocalizacionPage {
   GoogleAutocomplete: any;
   marcadores: any[];
   opcionesBusqueda: any;
+  posicion: Posicion;
+  radios = [
+    {id: 25, name: '25km'},
+    {id: 50, name: '50km'},
+    {id: 75, name: '75km'},
+    {id: 100, name: '100km'},
+    {id: 150, name: '150km'}
+  ];
+  radio: any;
 
   constructor(
-    private geolocation: Geolocation, private zona: NgZone
+    private geolocation: Geolocation, private zona: NgZone, private localizacionService: LocalizacionService
   ) {
     this.lugares = [];
     this.GoogleAutocomplete = new google.maps.places.AutocompleteService();
@@ -41,7 +50,9 @@ export class LocalizacionPage {
     };
     this.opcionesBusqueda = {
       componentRestrictions: { country: "es" }
-    }
+    };
+    this.posicion = new Posicion();
+    this.radio = this.radios[0];
   }
 
   getCurrentPosition() {
@@ -52,6 +63,10 @@ export class LocalizacionPage {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
         }
+        this.posicion.latitud = position.coords.latitude;
+        this.posicion.latitud = position.coords.longitude;
+        this.posicion.radio = this.radio;
+        this.refrescarLocalizacionesProximas();
         this.loadMap();
       })
       .catch(error => {
@@ -61,7 +76,7 @@ export class LocalizacionPage {
 
   loadMap() {
 
-    // craer mapa
+    // crear mapa
     this.mapa = GoogleMaps.create('map');
 
     // asignar posición de la cámara
@@ -72,22 +87,18 @@ export class LocalizacionPage {
     };
 
     this.mapa.one(GoogleMapsEvent.MAP_READY).then(() => {
-      console.log('Map is ready!');
+      console.log('Mapa preparado');
       console.log(this.posicionActual.latitude, this.posicionActual.longitude);
 
       // mover la cámara a la posición actual
       this.mapa.moveCamera(posicion);
 
-      // incluir marcador de la posición actual
-      let opcionesMarcador: MarkerOptions = {
-        position: this.posicionActual
-      };
-
-      this.addMarcador(opcionesMarcador);
-
-      this.marcadores.forEach(marcador => {
-        this.addMarcador(marcador);
-      });
+      /*  // incluir marcador de la posición actual
+       let opcionesMarcador: MarkerOptions = {
+         position: this.posicionActual
+       };
+ 
+       this.addMarcador(opcionesMarcador); */
 
     });
   }
@@ -96,13 +107,39 @@ export class LocalizacionPage {
     this.getCurrentPosition();
   }
 
-  addMarcador(opciones) {
-    let opcionesMarcador: MarkerOptions = {
-      position: new LatLng(opciones.position.latitude, opciones.position.longitude),
-      title: opciones.title,
-      icon: opciones.icon
+  addMarcador(puntoCarga) {
+    var icon: string;
+    console.log("Cargando marcador para punto de carga: " + puntoCarga.id);
+    if (puntoCarga.operador !== null && puntoCarga.operador.integrado) {
+      if (puntoCarga.estadoOcupacion = 0) {
+        icon = Constants.LIBRE;
+      }
+      if (puntoCarga.estadoOcupacion > 0 && puntoCarga.estadoOcupacion < 100) {
+        icon = Constants.SEMIOCUPADO;
+      }
+      if (puntoCarga.estadoOcupacion = 100) {
+        icon = Constants.OCUPADO;
+      }
+    }
+    if (puntoCarga.operador === null || !puntoCarga.operador.integrado) {
+      if (puntoCarga.tipoEstado.id === 10 || puntoCarga.tipoEstado.id === 50 || puntoCarga.tipoEstado.id === 75) {
+        icon = Constants.OPERATIVO;
+      } else {
+        icon = Constants.NO_OPERATIVO;
+      }
+    }
+    let marcador: MarkerOptions = {
+      position: new LatLng(puntoCarga.localizacion.latitud, puntoCarga.localizacion.longitud),
+      title: puntoCarga.localizacion.nombre + " - " + puntoCarga.localizacion.direccion + " - " + puntoCarga.localizacion.localidad,
+      icon: icon
     };
-    this.mapa.addMarker(opcionesMarcador);
+    this.marcadores.push(marcador);
+    this.mapa.addMarker(marcador);
+  }
+
+  // borrar los marcadores del mapa
+  borrarMarcadores() {
+    this.marcadores = [];
   }
 
   // presentar los resultados de lugares en la búsqueda autocompletada
@@ -137,7 +174,7 @@ export class LocalizacionPage {
 
   // seleccionar un lugar de la búsqueda autocompletada y obtener los puntos de carga próximos a su alrededor
   seleccionarResultadoBusqueda(lugar) {
-    //this.clearMarkers();
+    this.borrarMarcadores();
     this.lugares = [];
 
     this.geocoder.geocode({ 'placeId': lugar.place_id }, (resultados, status) => {
@@ -148,12 +185,28 @@ export class LocalizacionPage {
           zoom: 12,
           tilt: 30
         };
-
         // llevar la cámara a la posición de búsqueda
         this.mapa.moveCamera(posicionBusqueda);
+        // obtener resutados para la ocalización y el readio selaccionados por el usuario
+        this.posicion.latitud = resultados[0].geometry.location.lat();
+        this.posicion.longitud = resultados[0].geometry.location.lng();
+        this.posicion.radio = this.radio.id;
+        console.log(this.posicion);
+        this.refrescarLocalizacionesProximas();
       }
     });
   }
 
-
+  refrescarLocalizacionesProximas() {
+    this.localizacionService.obtenerResumenLocalizaciones(this.posicion).subscribe(
+      data => {
+        console.log(data);
+        data.forEach(puntoCarga => {
+          this.addMarcador(puntoCarga);
+        });
+      },
+      error => {
+        console.log(error)
+      });
+  }
 }

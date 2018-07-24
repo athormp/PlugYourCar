@@ -1,7 +1,7 @@
 import { RegistroService } from './registro.service';
-import { Usuario } from './../usuario/usuario.model';
-import { DniValidator } from './../../validators/DniValidator';
-import { PasswordValidator } from './../../validators/PasswordValidator';
+import { Usuario } from '../../model/usuario.model';
+import { DniValidator } from '../../validators/DniValidator';
+import { PasswordValidator } from '../../validators/PasswordValidator';
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';

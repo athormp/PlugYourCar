@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable()
 export class AuthService {
 
-  baseUrl: string = 'http://localhost:8080/oauth';
+  baseUrl: string = 'http://192.168.0.159:8080/oauth';
   clientId: string = '1364a508';
   clientSecret: string = '1364a508@App1';
 
@@ -24,5 +24,4 @@ export class AuthService {
     const credenciales = 'username=' + dniNie + '&password=' + password + '&grant_type=password';
     return this.http.post(this.baseUrl +'/token', credenciales, { headers : headers });
   }
-
 }
