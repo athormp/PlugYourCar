@@ -17,6 +17,7 @@ public class Operador implements Serializable {
 	
 	private String nombre;
 	private String urlSitioWeb;
+	private Boolean integrado;
 	
 	public Integer getId() {
 		return id;
@@ -40,6 +41,14 @@ public class Operador implements Serializable {
 	
 	public void setUrlSitioWeb(String urlSitioWeb) {
 		this.urlSitioWeb = urlSitioWeb;
+	}
+
+	public Boolean getIntegrado() {
+		return integrado;
+	}
+
+	public void setIntegrado(Boolean integrado) {
+		this.integrado = integrado;
 	}
 
 }

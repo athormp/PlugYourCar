@@ -16,7 +16,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 
-// Clase para configurar la conxión con el servidor elasticsearch
+// Clase para configurar la conexión con el servidor elasticsearch
 @Configuration
 @PropertySource(value = "classpath:application.properties")
 @EnableElasticsearchRepositories(basePackages = "com.plugyourcar.backend.repository.elasticsearch")

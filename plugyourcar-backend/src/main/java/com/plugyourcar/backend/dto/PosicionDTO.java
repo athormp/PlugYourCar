@@ -8,7 +8,7 @@ public class PosicionDTO {
 
 	@JsonProperty("latitud")
 	private Double latitud;
-	@JsonProperty("Longitud")
+	@JsonProperty("longitud")
     private Double longitud;
     @JsonProperty("radio")
     private Integer radio;

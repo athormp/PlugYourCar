@@ -27,16 +27,16 @@ public class PuntoCarga implements Serializable {
 	@NotNull
 	private String uuid;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	private Operador operador;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	private TipoUso tipoUso;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	private TipoEstado tipoEstado;
 	
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.EAGER)
 	private Localizacion localizacion;
 	
 	private Integer numeroPuntos;
@@ -44,6 +44,7 @@ public class PuntoCarga implements Serializable {
 	private String costeUso;
 	private Timestamp ultimaFechaActualizacion;
 	private Timestamp fechaCreacion;
+	private Integer estadoOcupacion;
 	
 	@OneToMany(mappedBy="puntoCarga",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	private List<EquipoSuministro> equiposSuministro;
@@ -142,6 +143,14 @@ public class PuntoCarga implements Serializable {
 
 	public void setEquiposSuministro(List<EquipoSuministro> equiposSuministro) {
 		this.equiposSuministro = equiposSuministro;
+	}
+
+	public Integer getEstadoOcupacion() {
+		return estadoOcupacion;
+	}
+
+	public void setEstadoOcupacion(Integer estadoOcupacion) {
+		this.estadoOcupacion = estadoOcupacion;
 	}
 	
 }
