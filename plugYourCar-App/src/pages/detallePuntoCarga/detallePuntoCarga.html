@@ -1,0 +1,112 @@
+<ion-header>
+    <app-header></app-header>
+</ion-header>
+<ion-content>
+    <ion-card>
+        <ion-card-content>
+            <ion-card-title>
+                {{ detallePuntoCarga.puntoCarga.localizacion.nombre }}
+            </ion-card-title>
+            <ion-grid class="grid_weige">
+                <ion-row align-items-start>
+                    <ion-col col-1>
+                        <ion-icon name="navigate" color="secondary"></ion-icon>
+                    </ion-col>
+                    <ion-col col-11>
+                        Detalles
+                    </ion-col>
+                </ion-row>
+                <ion-row align-items-start>
+                    <ion-col col-3 offset-1>
+                        Dirección:
+                    </ion-col>
+                    <ion-col col-8>
+                        {{ detallePuntoCarga.puntoCarga.localizacion.direccion }}, {{ detallePuntoCarga.puntoCarga.localizacion.localidad }}, {{
+                        detallePuntoCarga.puntoCarga.localizacion.codigoPostal }}
+                    </ion-col>
+                </ion-row>
+                <ion-row align-items-start>
+                    <ion-col col-3 offset-1>
+                        Operador:
+                    </ion-col>
+                    <ion-col col-8>
+                        {{ detallePuntoCarga.puntoCarga.operador.nombre }}
+                    </ion-col>
+                </ion-row>
+                <ion-row align-items-start>
+                    <ion-col col-3 offset-1>
+                        Número de equipos suministro:
+                    </ion-col>
+                    <ion-col col-8>
+                        {{ detallePuntoCarga.puntoCarga.numeroPuntos }}
+                    </ion-col>
+                </ion-row>
+                <ion-row align-items-start>
+                    <ion-col col-3 offset-1>
+                        Tipo:
+                    </ion-col>
+                    <ion-col col-8>
+                        {{ detallePuntoCarga.puntoCarga.tipoUso.nombre }}
+                    </ion-col>
+                </ion-row>
+                <ion-row align-items-start>
+                    <ion-col col-3 offset-1>
+                        Estado:
+                    </ion-col>
+                    <ion-col col-8>
+                        {{ detallePuntoCarga.puntoCarga.tipoEstado.nombre }}
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <ion-grid class="grid_weige">
+                <ion-row align-items-start>
+                    <ion-col col-1>
+                        <ion-icon name="navigate" color="secondary"></ion-icon>
+                    </ion-col>
+                    <ion-col col-11>
+                        Equipos Suministro
+                    </ion-col>
+                </ion-row>
+                <ion-grid class="grid_grey" *ngFor="let equipoSuministro of detallePuntoCarga.puntoCarga.equiposSuministro;">
+                    <ion-row align-items-start *ngFor="let conector of equipoSuministro.conectores;">
+                        <ng-container *ngIf="conector; else datosEquipoSuministro">
+                            <ion-col col-6 *ngIf="equipoSuministro.tipoConector; else noAplica" [ngClass]="aplicarColorTextoConector(conector)">
+                                {{ equipoSuministro.tipoConector.descripcion}}
+                            </ion-col>
+                            <ion-col col-6 *ngIf="equipoSuministro.tipoCargador; else noAplica" [ngClass]="aplicarColorTextoConector(conector)">
+                                {{ equipoSuministro.tipoCargador.nombre }}
+                            </ion-col>
+                        </ng-container>
+                    </ion-row>
+                    <ng-template #datosEquipoSuministro>
+                        <ion-col col-6 *ngIf="equipoSuministro.tipoConector; else noAplica" class="text-grey">
+                            {{ equipoSuministro.tipoConector.descripcion}}
+                        </ion-col>
+                        <ion-col col-6 *ngIf="equipoSuministro.tipoCargador; else noAplica" class="text-grey">
+                            {{ equipoSuministro.tipoCargador.nombre }}
+                        </ion-col>
+                    </ng-template>
+                    <ng-template #noAplica>
+                        <div class="text-grey">
+                            N/A
+                        </div>
+                    </ng-template>
+                    <ion-row>
+                        <ion-col *ngIf="detallePuntoCarga.puntoCarga.operador && detallePuntoCarga.puntoCarga.operador.integrado">
+                            <button ion-button block icon-start color="secondary">
+                                <ion-icon name="battery-charging" color="light"></ion-icon>
+                                Iniciar Carga
+                            </button>
+                        </ion-col>
+                        <ion-col  *ngIf="equipoSuministro.admiteReserva">
+                            <button ion-button block icon-start color="orange">
+                                <ion-icon name="calendar" color="light"></ion-icon>
+                                <div ion-text color="light">Reservar</div>
+                            </button>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

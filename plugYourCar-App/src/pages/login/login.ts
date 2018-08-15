@@ -1,13 +1,10 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { HeaderComponent } from '../header/header';
+import { NavController, LoadingController } from 'ionic-angular';
 import { AuthService } from './auth.service';
 import { TokenStorage } from './token.storage';
 import { RegistroPage } from '../registro/registro';
 import { LocalizacionPage } from '../localizacion/localizacion';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { LoadingController } from 'ionic-angular';
 
 @Component({
   selector: 'login',
@@ -22,7 +19,7 @@ export class LoginPage {
   successResponse: boolean;
   mensajeResultado: string;
 
-  constructor(public navCtrl: NavController, private authService: AuthService, private token: TokenStorage, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, private authService: AuthService, private token: TokenStorage, private loadingCtrl: LoadingController) {
     this.paginaEnlazada = RegistroPage;
     this.loginForm = new FormGroup({
       dniNie: new FormControl(
@@ -50,19 +47,15 @@ export class LoginPage {
       data => {
         this.token.guardarToken(data.access_token);
         this.successResponse = true;
-        this.mensajeResultado = "Login correcto, redirigiendo";
         const loader = this.loadingCtrl.create({
-          content: "Please wait...",
+          content: "Login correcto, redirigiendo",
           duration: 3000
         });
         loader.present();
-        setTimeout(() => {
-          this.navCtrl.setRoot(LocalizacionPage);
-        },
-          3000);
+        this.navCtrl.setRoot(LocalizacionPage);
       },
       error => {
-        console.log(error.error.error);
+        console.log(error);
         this.errorResponse = true;
         this.mensajeResultado = "Usuario o password incorrectos";
       }

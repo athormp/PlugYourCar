@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable()
 export class AuthService {
 
-  baseUrl: string = 'http://192.168.0.159:8080/oauth';
+  baseUrl: string = 'http://192.168.1.140:8080/oauth';
   clientId: string = '1364a508';
   clientSecret: string = '1364a508@App1';
 

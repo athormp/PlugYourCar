@@ -18,11 +18,12 @@ export class TokenStorage {
   public guardarToken(token: string) {
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.setItem(TOKEN_KEY, token);
+    console.log(window.sessionStorage.getItem(TOKEN_KEY));
   }
 
   // recuperar token del sessionStorage
   public entregarToken(): string {
-    return sessionStorage.getItem(TOKEN_KEY);
+    return window.sessionStorage.getItem(TOKEN_KEY);
   }
 
   public loggedIn(): boolean {

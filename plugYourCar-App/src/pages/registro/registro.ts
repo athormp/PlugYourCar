@@ -47,7 +47,7 @@ export class RegistroPage {
       nombre: ['', Validators.required],
       apellidos: ['', Validators.required],
       email: ['', Validators.compose([
-        Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/),
+        Validators.pattern(/^[a-zA-Z0-9._]+[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/),
         Validators.required
       ])
       ],

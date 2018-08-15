@@ -9,7 +9,6 @@ export class PasswordValidator {
         let coincidentes = true;
 
         for (let key in formGroup.controls) {
-            console.log("ENTRO");
             if (formGroup.controls.hasOwnProperty(key)) {
                 let valorControl: FormControl = <FormControl>formGroup.controls[key];
                 if (valor === undefined) {

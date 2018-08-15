@@ -1,8 +1,8 @@
 import { Geolocation } from '@ionic-native/geolocation';
-import { RegistroService } from './../pages/registro/registro.service';
-import { AuthService } from './../pages/login/auth.service';
-import { LocalizacionService } from './../pages/localizacion/localizacion.service';
-import { TokenStorage } from './../pages/login/token.storage';
+import { RegistroService } from '../pages/registro/registro.service';
+import { AuthService } from '../pages/login/auth.service';
+import { LocalizacionService } from '../pages/localizacion/localizacion.service';
+import { TokenStorage } from '../pages/login/token.storage';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
@@ -14,9 +14,11 @@ import { LoginPage } from '../pages/login/login';
 import { LocalizacionPage } from '../pages/localizacion/localizacion';
 import { GestionCargaPage } from '../pages/gestionCarga/gestionCarga';
 import { RegistroPage } from '../pages/registro/registro';
-import { HttpClientModule } from '@angular/common/http';
+import { DetallePuntoCargaPage } from '../pages/detallePuntoCarga/detallePuntoCarga';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 import { GoogleMaps } from '@ionic-native/google-maps';
+import { Interceptor } from '../pages/login/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { GoogleMaps } from '@ionic-native/google-maps';
     LoginPage,
     LocalizacionPage,
     GestionCargaPage,
-    RegistroPage
+    RegistroPage,
+    DetallePuntoCargaPage
   ],
   imports: [
     BrowserModule,
@@ -39,7 +42,8 @@ import { GoogleMaps } from '@ionic-native/google-maps';
     LoginPage,
     LocalizacionPage,
     GestionCargaPage,
-    RegistroPage
+    RegistroPage,
+    DetallePuntoCargaPage
   ],
   providers: [
     StatusBar,
@@ -50,7 +54,8 @@ import { GoogleMaps } from '@ionic-native/google-maps';
     TokenStorage,
     Geolocation,
     GoogleMaps,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    {provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true}
   ]
 })
 export class AppModule {}

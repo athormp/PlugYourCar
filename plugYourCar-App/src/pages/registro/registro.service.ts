@@ -1,4 +1,4 @@
-import { Usuario } from './../../model/usuario.model';
+import { Usuario } from '../../model/usuario.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class RegistroService {
 
-  baseUrl:string = 'http://192.168.0.159:8080/usuarios';
+  baseUrl:string = 'http://192.168.1.140:8080/usuarios';
 
   constructor(private http: HttpClient) {
   }
