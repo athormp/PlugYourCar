@@ -2,9 +2,7 @@ package com.plugyourcar.backend.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.List;
-
-import javax.persistence.CascadeType;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -12,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class PuntoCarga implements Serializable {
@@ -30,7 +30,7 @@ public class PuntoCarga implements Serializable {
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Operador operador;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	private TipoUso tipoUso;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
@@ -46,8 +46,9 @@ public class PuntoCarga implements Serializable {
 	private Timestamp fechaCreacion;
 	private Integer estadoOcupacion;
 	
-	@OneToMany(mappedBy="puntoCarga",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
-	private List<EquipoSuministro> equiposSuministro;
+	@OneToMany(mappedBy="puntoCarga",fetch=FetchType.EAGER)
+	@JsonManagedReference
+	private Set<EquipoSuministro> equiposSuministro;
 
 	public Integer getId() {
 		return id;
@@ -137,11 +138,11 @@ public class PuntoCarga implements Serializable {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public List<EquipoSuministro> getEquiposSuministro() {
+	public Set<EquipoSuministro> getEquiposSuministro() {
 		return equiposSuministro;
 	}
 
-	public void setEquiposSuministro(List<EquipoSuministro> equiposSuministro) {
+	public void setEquiposSuministro(Set<EquipoSuministro> equiposSuministro) {
 		this.equiposSuministro = equiposSuministro;
 	}
 

@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Carga implements Serializable {
 
@@ -26,10 +28,12 @@ public class Carga implements Serializable {
 	
 	@NotNull
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JsonBackReference
 	private Usuario usuario;
 	
 	@NotNull
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JsonBackReference
 	private Conector conector;
 	
 	@OneToOne(fetch=FetchType.LAZY)

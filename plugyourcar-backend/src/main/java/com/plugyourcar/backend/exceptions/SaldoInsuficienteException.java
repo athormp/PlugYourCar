@@ -12,7 +12,7 @@ public class SaldoInsuficienteException extends RuntimeException implements Seri
 
 	public SaldoInsuficienteException (String saldo, StringBuilder message) {
 		super(message.toString());
-		this.saldo = saldo;
+		saldo = this.saldo;
 	}
 
 }

@@ -1,9 +1,7 @@
 package com.plugyourcar.backend.model;
 
 import java.io.Serializable;
-import java.util.List;
-
-import javax.persistence.CascadeType;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,8 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Conector implements Serializable{
@@ -27,20 +27,24 @@ public class Conector implements Serializable{
 	private Integer id;
 	
 	@NotNull
-	@OneToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JsonBackReference
 	private EquipoSuministro equipoSuministro;
 	
 	@NotNull
 	private Integer idReferencia;
-
-	@ManyToOne(fetch=FetchType.LAZY)
+	
+	@NotNull
+	@ManyToOne(fetch=FetchType.EAGER)
 	private EstadoConector estadoConector;
 
-	@OneToMany(mappedBy="conector",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
-	private List<Reserva> reservas;
+	@OneToMany(mappedBy="conector",fetch=FetchType.LAZY)
+	@JsonManagedReference
+	private Set<Reserva> reservas;
 	
-	@OneToMany(mappedBy="conector",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
-	private List<Carga> cargas;
+	@OneToMany(mappedBy="conector",fetch=FetchType.LAZY)
+	@JsonManagedReference
+	private Set<Carga> cargas;
 
 	public Integer getId() {
 		return id;
@@ -74,19 +78,19 @@ public class Conector implements Serializable{
 		this.estadoConector = estadoConector;
 	}
 
-	public List<Reserva> getReservas() {
+	public Set<Reserva> getReservas() {
 		return reservas;
 	}
 
-	public void setReservas(List<Reserva> reservas) {
+	public void setReservas(Set<Reserva> reservas) {
 		this.reservas = reservas;
 	}
 
-	public List<Carga> getCargas() {
+	public Set<Carga> getCargas() {
 		return cargas;
 	}
 
-	public void setCargas(List<Carga> cargas) {
+	public void setCargas(Set<Carga> cargas) {
 		this.cargas = cargas;
 	}
 	

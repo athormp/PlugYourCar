@@ -3,7 +3,6 @@ package com.plugyourcar.backend.services.impl;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -44,7 +43,7 @@ public class UsuarioServiceImpl implements UserDetailsService, UsuarioService {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;	
 	
-	private static final Logger log = LoggerFactory.getLogger(PuntosCargaLoaderServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(UsuarioServiceImpl.class);
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

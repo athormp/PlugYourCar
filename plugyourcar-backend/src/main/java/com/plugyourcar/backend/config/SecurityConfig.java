@@ -44,12 +44,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .anonymous().disable()
-                .authorizeRequests()
-                .antMatchers("/usuarios/registro").permitAll()
-                .antMatchers("/oauth/token").permitAll()
-                .antMatchers("/puntocarga/**").permitAll()
-                .anyRequest().authenticated();
+                .anonymous().disable();
+//                .authorizeRequests()
+//                .antMatchers("/usuarios/registro").permitAll()
+//                .antMatchers("/oauth/token").permitAll()
+//                .antMatchers("/puntocarga/**").permitAll()
+//                .anyRequest().authenticated();
     }
 
     @Bean

@@ -1,16 +1,17 @@
 package com.plugyourcar.backend.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class EquipoSuministro implements Serializable {
@@ -24,26 +25,33 @@ public class EquipoSuministro implements Serializable {
 	private Integer id;
 	
 	@NotNull
-	@OneToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JsonBackReference
 	private PuntoCarga puntoCarga;
 	
 	private Integer referencia;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	private TipoConector tipoConector;
 	
 	private Integer amperaje;
 	private Integer voltaje;
 	private Double potencia;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	private TipoCargador tipoCargador;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	private TipoCorriente tipoCorriente;
 	
-	@OneToMany(mappedBy="equipoSuministro",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-	private List<Conector> Conectores;
+	@ManyToOne(fetch=FetchType.EAGER)
+	private Tarifa tarifa;
+	
+	@OneToMany(mappedBy="equipoSuministro",fetch=FetchType.EAGER)
+	@JsonManagedReference
+	private Set<Conector> conectores;
+	
+	private Boolean admiteReserva;
 	
 	public Integer getId() {
 		return id;
@@ -117,11 +125,20 @@ public class EquipoSuministro implements Serializable {
 		this.tipoCorriente = tipoCorriente;
 	}
 
-	public List<Conector> getConectores() {
-		return Conectores;
+	public Set<Conector> getConectores() {
+		return conectores;
 	}
 
-	public void setConectores(List<Conector> conectores) {
-		Conectores = conectores;
+	public void setConectores(Set<Conector> conectores) {
+		this.conectores = conectores;
 	}
+
+	public Boolean getAdmiteReserva() {
+		return admiteReserva;
+	}
+
+	public void setAdmiteReserva(Boolean admiteReserva) {
+		this.admiteReserva = admiteReserva;
+	}
+	
 }

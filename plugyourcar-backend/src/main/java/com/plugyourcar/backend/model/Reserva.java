@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Reserva implements Serializable {
 	
@@ -27,6 +29,7 @@ public class Reserva implements Serializable {
 	private Usuario usuario;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JsonBackReference
 	private Conector conector;
 	
 	@NotNull

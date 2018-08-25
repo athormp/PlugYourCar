@@ -1,0 +1,32 @@
+<ion-header>
+    <ion-navbar [color]="tipoOperacionCarga ? 'secondary' : 'orange'">
+        <ion-title>Conectores libres</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ng-container>
+        <p class="error-message" padding-left padding-right *ngIf="errorMessage">
+            {{ errorMessage }}
+        </p>
+    </ng-container>
+    <ion-list radio-group [(ngModel)]="idConector">
+        <ion-item *ngFor="let conector of conectoresLibres;">
+            <ion-label>{{conector.tipo}} - {{conector.idEquipoSuministro}}/{{conector.id}}/{{conector.idReferencia}}</ion-label>
+            <ion-radio [value]="conector.id"></ion-radio>
+        </ion-item>
+    </ion-list>
+    <ion-row>
+        <ion-col col-4 offset-2>
+            <button ion-button icon-start block color="secondary" (click)="aceptar()">
+                <ion-icon name="checkmark"></ion-icon>
+                Aceptar
+            </button>
+        </ion-col>
+        <ion-col col-4>
+            <button ion-button icon-start block color="danger" (click)="cancelar()">
+                <ion-icon name="close"></ion-icon>
+                Cancelar
+            </button>
+        </ion-col>
+    </ion-row>
+</ion-content>

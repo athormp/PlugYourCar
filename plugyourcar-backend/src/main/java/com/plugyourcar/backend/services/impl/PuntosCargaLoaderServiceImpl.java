@@ -2,8 +2,9 @@ package com.plugyourcar.backend.services.impl;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -139,7 +140,7 @@ public class PuntosCargaLoaderServiceImpl implements PuntosCargaLoaderService{
 				puntoCarga.setTipoUso(tipoUso);
 			}
 		
-			List<EquipoSuministro> equiposSuministroNuevos = new ArrayList<EquipoSuministro>();
+			Set<EquipoSuministro> equiposSuministroNuevos = new HashSet<EquipoSuministro>();
 			if (puntoCargaDTO.getConectoresDTO() != null && !puntoCargaDTO.getConectoresDTO().isEmpty()) {
 				log.info("ConectoresDTO: " + puntoCargaDTO.getConectoresDTO().size());
 				
@@ -191,20 +192,19 @@ public class PuntosCargaLoaderServiceImpl implements PuntosCargaLoaderService{
 	}
 	
 	@Transactional
-	private List<EquipoSuministro> loadEquiposSuministroConectores(PuntoCarga puntoCarga, List<ConectorDTO> conectoresDTO, List<EquipoSuministro> equiposSuministro) {
+	private Set<EquipoSuministro> loadEquiposSuministroConectores(PuntoCarga puntoCarga, List<ConectorDTO> conectoresDTO, Set<EquipoSuministro> equiposSuministro) {
 		for (ConectorDTO conectorDTO : conectoresDTO) {
-			int i = 0;
 			log.info("Equipo de suministro ID: " + conectorDTO.getId());
-			if (equiposSuministro.get(i) == null) {
+			if (!equiposSuministro.iterator().hasNext()) {
 				EquipoSuministro equipoSuministro = new EquipoSuministro();
 				equipoSuministro.setId(conectorDTO.getId());
 				loadParcialEquipoSuministro(equipoSuministro, conectorDTO);
 				equiposSuministro.add(equipoSuministro);
 			} else {
-				loadParcialEquipoSuministro(equiposSuministro.get(i), conectorDTO);
-				equiposSuministro.get(i).setPuntoCarga(puntoCarga);
+				EquipoSuministro equipoSuministro = equiposSuministro.iterator().next();
+				loadParcialEquipoSuministro(equipoSuministro, conectorDTO);
+				equipoSuministro.setPuntoCarga(puntoCarga);
 			}
-			i++;
 		}
 		return equiposSuministro;
 	}
@@ -226,7 +226,7 @@ public class PuntosCargaLoaderServiceImpl implements PuntosCargaLoaderService{
 			TipoCorriente tipoCorriente = tipoCorrienteRepository.getOne(conectorDTO.getTipoCorriente());
 			equipoSuministro.setTipoCorriente(tipoCorriente);
 		}
-		List<Conector> conectores = new ArrayList<Conector>();
+		Set<Conector> conectores = new HashSet<Conector>();
 		if (conectorDTO.getQuantity() != null) {
 			for (int i = 0; i < conectorDTO.getQuantity(); i++) {
 				if (conectorRepository.findByIdReferenciaAndEquipoSuministro(i + 1, equipoSuministro) == null) {
