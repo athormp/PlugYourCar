@@ -49,7 +49,7 @@ export class LocalizacionPage {
     public navCtrl: NavController, public navParams: NavParams, private geolocation: Geolocation, private zona: NgZone, private localizacionService: LocalizacionService, 
     private events: Events, public loadingCtrl: LoadingController
   ) {
-    events.subscribe('http:forbidden', error => {
+    this.events.subscribe('http:forbidden', error => {
       const loader = this.loadingCtrl.create({
         content: "Se requiere estar autenticado para poder realizar esta acción, redirigiendo a página de Login",
         duration: 3000

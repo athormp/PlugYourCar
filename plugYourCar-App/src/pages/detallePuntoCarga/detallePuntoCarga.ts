@@ -1,6 +1,8 @@
 import { DetallePuntoCargaPosicion } from '../../model/detallePuntoCargaPosicion';
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ModalController } from 'ionic-angular';
+import { SeleccionarConectorModal } from '../seleccionarConectorModal/seleccionarConectorModal';
+import { ConectorLibre } from '../../model/conectorLibre';
 
 @Component({
   selector: 'detallePuntoCarga',
@@ -14,7 +16,7 @@ export class DetallePuntoCargaPage {
 
   detallePuntoCarga: DetallePuntoCargaPosicion;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
     this.detallePuntoCarga = navParams.get('data');
     console.log("Obteniendo parámetros: " + navParams.get('data'));
   }
@@ -28,4 +30,23 @@ export class DetallePuntoCargaPage {
     };
   }
 
+  iniciarCarga(equipoSuministro) {
+    let conectoresLibres: Array<ConectorLibre> = [];
+    let tipoOperacionCarga = true;
+    console.log("Iniciando carga");
+    if (equipoSuministro.conectores.length > 1) {
+      for (var i=0; i<equipoSuministro.conectores.length; i++) {
+        if (equipoSuministro.conectores[i].estadoConector.id === 1) {
+          let conectorLibre = new ConectorLibre();
+          conectorLibre.idEquipoSuministro = equipoSuministro.id;
+          conectorLibre.id = equipoSuministro.conectores[i].id;
+          conectorLibre.idReferencia = equipoSuministro.conectores[i].idReferencia;
+          conectorLibre.tipo = equipoSuministro.tipoConector.descripcion;
+          conectoresLibres.push(conectorLibre);
+        }
+      }
+      let modal = this.modalCtrl.create(SeleccionarConectorModal, { conectoresLibres, tipoOperacionCarga }, { cssClass: 'select-modal-s select-modal-m' });
+      modal.present();
+    }
+  }
 }

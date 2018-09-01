@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Constants } from '../../constants/constants';
 
 // servicio para obtener el token durante el proceso de login de usuario
 @Injectable()
 export class AuthService {
 
-  baseUrl: string = 'http://192.168.1.140:8080/oauth';
   clientId: string = '1364a508';
   clientSecret: string = '1364a508@App1';
 
@@ -22,6 +22,6 @@ export class AuthService {
     });
     // añadir credenciales
     const credenciales = 'username=' + dniNie + '&password=' + password + '&grant_type=password';
-    return this.http.post(this.baseUrl +'/token', credenciales, { headers : headers });
+    return this.http.post(Constants.SERVER_URL +'/oauth/token', credenciales, { headers : headers });
   }
 }

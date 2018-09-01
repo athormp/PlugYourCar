@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, Events, NavController, LoadingController } from 'ionic-angular';
+import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginPage } from '../pages/login/login';
 import { LocalizacionPage } from '../pages/localizacion/localizacion';
-import  { GestionCargaPage } from '../pages/gestionCarga/gestionCarga'
+import  { HistoricoCargasPage } from '../pages/historicoCargas/historicoCargas'
 
 @Component({
   templateUrl: 'app.html'
@@ -25,8 +25,8 @@ export class PlugYourCarApp {
     // líneas del menú con el título, el componente al que se llama y el icono que debe aparecer a la izquierda 
     this.pages = [
       { title: 'Login', component: LoginPage, icon: 'person' },
-      { title: 'Localizacion', component: LocalizacionPage, icon: 'compass' },
-      { title: 'GestionCarga', component: GestionCargaPage, icon: 'battery-charging'}
+      { title: 'Localización', component: LocalizacionPage, icon: 'compass' },
+      { title: 'Gestión Carga', component: HistoricoCargasPage, icon: 'battery-charging'}
     ];
 
   }

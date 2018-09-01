@@ -3,6 +3,7 @@
 </ion-header>
 <ion-content>
     <ion-card>
+        <img src="assets/imgs/detalle_punto.png" />
         <ion-card-content>
             <ion-card-title>
                 {{ detallePuntoCarga.puntoCarga.localizacion.nombre }}
@@ -35,15 +36,7 @@
                 </ion-row>
                 <ion-row align-items-start>
                     <ion-col col-3 offset-1>
-                        Número de equipos suministro:
-                    </ion-col>
-                    <ion-col col-8>
-                        {{ detallePuntoCarga.puntoCarga.numeroPuntos }}
-                    </ion-col>
-                </ion-row>
-                <ion-row align-items-start>
-                    <ion-col col-3 offset-1>
-                        Tipo:
+                        Modo de uso:
                     </ion-col>
                     <ion-col col-8>
                         {{ detallePuntoCarga.puntoCarga.tipoUso.nombre }}
@@ -55,6 +48,30 @@
                     </ion-col>
                     <ion-col col-8>
                         {{ detallePuntoCarga.puntoCarga.tipoEstado.nombre }}
+                    </ion-col>
+                </ion-row>
+                <ion-row align-items-start>
+                    <ion-col col-3 offset-1>
+                        Distancia:
+                    </ion-col>
+                    <ion-col col-8>
+                        442kms
+                    </ion-col>
+                </ion-row>
+                <ion-row align-items-start>
+                    <ion-col col-3 offset-1>
+                        Tiempo de trayecto:
+                    </ion-col>
+                    <ion-col col-8>
+                        4h 30min
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <button ion-button block icon-start color="primary">
+                            <ion-icon name="compass" color="light"></ion-icon>
+                            Ir
+                        </button>
                     </ion-col>
                 </ion-row>
             </ion-grid>
@@ -70,20 +87,26 @@
                 <ion-grid class="grid_grey" *ngFor="let equipoSuministro of detallePuntoCarga.puntoCarga.equiposSuministro;">
                     <ion-row align-items-start *ngFor="let conector of equipoSuministro.conectores;">
                         <ng-container *ngIf="conector; else datosEquipoSuministro">
-                            <ion-col col-6 *ngIf="equipoSuministro.tipoConector; else noAplica" [ngClass]="aplicarColorTextoConector(conector)">
+                            <ion-col col-5 *ngIf="equipoSuministro.tipoConector; else noAplica" [ngClass]="aplicarColorTextoConector(conector)">
                                 {{ equipoSuministro.tipoConector.descripcion}}
                             </ion-col>
-                            <ion-col col-6 *ngIf="equipoSuministro.tipoCargador; else noAplica" [ngClass]="aplicarColorTextoConector(conector)">
+                            <ion-col col-4 *ngIf="equipoSuministro.tipoCargador; else noAplica" [ngClass]="aplicarColorTextoConector(conector)">
                                 {{ equipoSuministro.tipoCargador.nombre }}
+                            </ion-col>
+                            <ion-col col-3 *ngIf="equipoSuministro.tarifa; else noAplica" [ngClass]="aplicarColorTextoConector(conector)">
+                                {{ equipoSuministro.tarifa.precioKwh }}/kWh
                             </ion-col>
                         </ng-container>
                     </ion-row>
                     <ng-template #datosEquipoSuministro>
-                        <ion-col col-6 *ngIf="equipoSuministro.tipoConector; else noAplica" class="text-grey">
+                        <ion-col col-5 *ngIf="equipoSuministro.tipoConector; else noAplica" class="text-grey">
                             {{ equipoSuministro.tipoConector.descripcion}}
                         </ion-col>
-                        <ion-col col-6 *ngIf="equipoSuministro.tipoCargador; else noAplica" class="text-grey">
+                        <ion-col col-4 *ngIf="equipoSuministro.tipoCargador; else noAplica" class="text-grey">
                             {{ equipoSuministro.tipoCargador.nombre }}
+                        </ion-col>
+                        <ion-col col-3 *ngIf="equipoSuministro.tarifa; else noAplica" class="text-grey">
+                            {{ equipoSuministro.tarifa.Kwh }}/kWh
                         </ion-col>
                     </ng-template>
                     <ng-template #noAplica>
@@ -92,13 +115,13 @@
                         </div>
                     </ng-template>
                     <ion-row>
-                        <ion-col *ngIf="detallePuntoCarga.puntoCarga.operador && detallePuntoCarga.puntoCarga.operador.integrado">
-                            <button ion-button block icon-start color="secondary">
+                        <ion-col *ngIf="detallePuntoCarga.puntoCarga.operador && detallePuntoCarga.puntoCarga.operador.integrado && !equipoSuministro.admiteReserva">
+                            <button ion-button block icon-start color="secondary" (click)="iniciarCarga(equipoSuministro)">
                                 <ion-icon name="battery-charging" color="light"></ion-icon>
                                 Iniciar Carga
                             </button>
                         </ion-col>
-                        <ion-col  *ngIf="equipoSuministro.admiteReserva">
+                        <ion-col *ngIf="equipoSuministro.admiteReserva">
                             <button ion-button block icon-start color="orange">
                                 <ion-icon name="calendar" color="light"></ion-icon>
                                 <div ion-text color="light">Reservar</div>

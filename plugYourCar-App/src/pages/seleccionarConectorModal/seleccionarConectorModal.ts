@@ -35,7 +35,7 @@ export class SeleccionarConectorModal {
     if (this.idConector === undefined) {
       this.errorMessage = "Debe seleccionar un conector para poder iniciar el proceso de carga";
     } else {
-      this.gestionCargaService.iniciarCarga(this.idConector).subscribe(
+      this.gestionCargaService.iniciarCarga(this.idConector, false).subscribe(
         data => {
           const loader = this.loadingCtrl.create({
             content: "Autorizando conexión por parte del operador de carga",

@@ -40,7 +40,8 @@ $colors: (
   light:      #f4f4f4,
   dark:       #222,
   weige:      #fef1ee,
-  orange:     #ffdb58
+  orange:     #ffdb58,
+  
 );
 
 
@@ -108,3 +109,13 @@ $colors: (
   color: #3df54c;
   font-size: 1.5em;
 }
+
+// Toasts properties
+
+$toast-width: 100%;
+$toast-ios-background: #ffffff; // Apply for iOS
+$toast-md-background: #ffffff; // Apply for Android
+$toast-wp-background: white; // Apply for Windows
+$toast-ios-title-color: red; // Apply for iOS
+$toast-md-title-color: red; // Apply for Android
+$toast-wp-title-color: red; // Apply for Windows

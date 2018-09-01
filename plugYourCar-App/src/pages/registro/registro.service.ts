@@ -2,18 +2,19 @@ import { Usuario } from '../../model/usuario.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
+import { Constants } from '../../constants/constants';
 
 @Injectable()
 export class RegistroService {
 
-  baseUrl:string = 'http://192.168.1.140:8080/usuarios';
+  //baseUrl:string = Constants.SERVER_URL;
 
   constructor(private http: HttpClient) {
   }
 
   registrar(usuario: Usuario): Observable<any> {
     console.log('Registrando Usuario: ' + usuario.nombre + " " + usuario.apellidos);
-    return this.http.post(this.baseUrl + '/registro', usuario);
+    return this.http.post(Constants.SERVER_URL + '/registro', usuario);
   }
 
 }

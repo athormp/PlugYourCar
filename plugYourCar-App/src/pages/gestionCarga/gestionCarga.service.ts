@@ -10,8 +10,23 @@ export class GestionCargaService {
   constructor(private http: HttpClient) {
   }
 
-  iniciarCarga(idConector: string): Observable<any> {
+  obtenerCargas(): Observable<any> {
+    console.log('Recuperando cargas para un usuario');
+    return this.http.get(Constants.SERVER_URL + '/carga');
+  }
+
+  obtenerDetalleCarga(idCarga: string): Observable<any> {
+    console.log('Recuperando carga para un usuario con id: ' + idCarga);
+    return this.http.get(Constants.SERVER_URL + '/carga/' + idCarga);
+  }
+
+  iniciarCarga(idConector: string, cargaConReserva): Observable<any> {
     console.log('Iniciando carga para el conector: ' + idConector);
-    return this.http.post(Constants.SERVER_URL + '/carga/' + idConector, null);
+    return this.http.post(Constants.SERVER_URL + '/carga/' + idConector + "/" + cargaConReserva, null);
+  }
+
+  finalizarCarga(idCarga: string): Observable<any> {
+    console.log('Finalizando carga para el conector: ' + idCarga);
+    return this.http.put(Constants.SERVER_URL + '/carga/' + idCarga, null);
   }
 }

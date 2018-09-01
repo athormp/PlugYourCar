@@ -1,15 +1,76 @@
-<ion-content padding>
-
-    <h3>Welcome to your first Ionic app!</h3>
-
-    <p>
-        This starter project is our way of helping you get a functional app running in record time.
-    </p>
-    <p>
-        Follow along on the tutorial section of the Ionic docs!
-    </p>
-    <p>
-        <button ion-button color="primary" menuToggle>Toggle Menu</button>
-    </p>
-
+<ion-header>
+    <app-header></app-header>
+</ion-header>
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <ion-navbar color="secondary">
+                <ion-title>{{ carga.nombrePuntoCarga }}</ion-title>
+            </ion-navbar>
+        </ion-row>
+        <ion-row class="row-barra">
+            <ion-col>
+                <round-progress class="barra-progreso" [current]="carga.porcentaje" [max]="100" [color]="'#00cc99'" [background]="'#eaeaea'"
+                    [radius]="75" [stroke]="10" [clockwise]="true" [duration]="800" [animation]="'easeInOutQuart'"></round-progress>
+            </ion-col>
+        </ion-row>
+        <ion-row class="row-barra">
+            <ion-col ion-text color="secondary" center text-center class="texto-porcentaje">{{ carga.porcentaje }}%</ion-col>
+        </ion-row>
+        <ion-row class="row-detalles">
+            <ion-col>
+                <ion-row>
+                    <ion-col col-6>Estado carga:</ion-col>
+                    <ion-col col-6>{{ carga.estadoCarga.descripcion }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-6>Operador:</ion-col>
+                    <ion-col col-6>{{ carga.operador }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-6>Referencia de conector:</ion-col>
+                    <ion-col col-6>{{ carga.referencia }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-6>Tipo de conector:</ion-col>
+                    <ion-col col-6>{{ carga.tipoConector.descripcion }}</ion-col>
+                </ion-row>
+                <ion-row *ngIf="carga?.horaInicioReserva">
+                    <ion-col col-6>Fecha/Hora Inicio Reserva:</ion-col>
+                    <ion-col col-6>{{ carga.horaInicioReserva | date: 'dd/MM/yyyy HH:mm:ss' }}</ion-col>
+                </ion-row>
+                <ion-row *ngIf="carga?.horaFinReserva">
+                    <ion-col col-6>Fecha/Hora Fin Reserva:</ion-col>
+                    <ion-col col-6>{{ carga.horaFinReserva | date: 'dd/MM/yyyy HH:mm:ss' }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-6>Fecha/Hora Inicio Recarga:</ion-col>
+                    <ion-col col-6>{{ carga.horaInicio | date: 'dd/MM/yyyy HH:mm:ss' }}</ion-col>
+                </ion-row>
+                <ion-row *ngIf="carga?.horaFin">
+                    <ion-col col-6>Fecha/Hora Fin Recarga:</ion-col>
+                    <ion-col col-6>{{ carga.horaFin | date: 'dd/MM/yyyy HH:mm:ss' }}</ion-col>
+                </ion-row>
+                <ion-row *ngIf="carga?.horaDesconexion">
+                    <ion-col col-6>Fecha/Hora Desconexión:</ion-col>
+                    <ion-col col-6>{{ carga.horaDesconexion | date: 'dd/MM/yyyy HH:mm:ss' }}</ion-col>
+                </ion-row>
+                <ion-row *ngIf="carga.estadoCarga.id === 4; else costeParcial">
+                    <ion-col col-6>Coste Final:</ion-col>
+                    <ion-col col-6>{{ carga.cargoFactura }}</ion-col>
+                </ion-row>
+                <ng-template #costeParcial>
+                    <ion-row>
+                        <ion-col col-6>Coste Parcial:</ion-col>
+                        <ion-col col-6>{{ carga.cargoFactura }}</ion-col>
+                    </ion-row>
+                </ng-template>
+            </ion-col>
+        </ion-row>
+        <ion-row class="row-detalles" *ngIf="carga.estadoCarga.id !== 4">
+            <ion-col center text-center>
+                <button ion-button full color="secondary" (click)="finalizarCarga(carga.id)">Finalizar Carga</button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>

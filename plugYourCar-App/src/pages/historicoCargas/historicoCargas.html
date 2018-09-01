@@ -1,0 +1,24 @@
+<ion-header>
+    <app-header></app-header>
+</ion-header>
+<ion-content class="outer-content">
+    <ion-list>
+        <ion-list-header color="secondary">
+            CONSULTA DE CARGAS / RESERVAS
+        </ion-list-header>
+        <ion-item *ngFor="let carga of cargas">
+            <ion-avatar *ngIf="!carga.cargaConReserva; else booking_icon" item-start>
+                <img src="assets/recargas/recarga.png">
+            </ion-avatar>
+            <ng-template #booking_icon>
+                <img src="assets/recargas/reserva.png">
+            </ng-template>
+            <h2>{{ carga.nombrePuntoCarga }}</h2>
+            <h3>{{ carga.operador }}</h3>
+            <p>Inicio {{ carga.horaInicio | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
+            <p *ngIf="carga.horaFin">Finalización {{ carga.horaFin | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
+            <p>{{ carga.estadoCarga }}</p>
+            <button ion-button item-end color="secondary" (click)="mostrarDetalle(carga.id)">Consultar</button>
+        </ion-item>
+    </ion-list>
+</ion-content>
