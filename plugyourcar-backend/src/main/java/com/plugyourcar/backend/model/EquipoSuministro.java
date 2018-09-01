@@ -140,5 +140,13 @@ public class EquipoSuministro implements Serializable {
 	public void setAdmiteReserva(Boolean admiteReserva) {
 		this.admiteReserva = admiteReserva;
 	}
+
+	public Tarifa getTarifa() {
+		return tarifa;
+	}
+
+	public void setTarifa(Tarifa tarifa) {
+		this.tarifa = tarifa;
+	}
 	
 }

@@ -35,4 +35,22 @@ public class ExceptionHandlingController {
         return new ResponseEntity<ExceptionResponse>(response, HttpStatus.CONFLICT);
     }
     
+    @ExceptionHandler(OperacionNoAdmitidaException.class)
+    public ResponseEntity<ExceptionResponse> operacionNoAdmitidaError(OperacionNoAdmitidaException ex) {
+        ExceptionResponse response = new ExceptionResponse();
+        response.setErrorCode("1005");
+        response.setErrorMessage(ex.getMessage());
+ 
+        return new ResponseEntity<ExceptionResponse>(response, HttpStatus.CONFLICT);
+    }
+    
+    @ExceptionHandler(CargaException.class)
+    public ResponseEntity<ExceptionResponse> cargaError(CargaException ex) {
+        ExceptionResponse response = new ExceptionResponse();
+        response.setErrorCode("1006");
+        response.setErrorMessage(ex.getMessage());
+ 
+        return new ResponseEntity<ExceptionResponse>(response, HttpStatus.CONFLICT);
+    }
+    
 }

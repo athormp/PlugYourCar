@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -32,20 +31,25 @@ public class Carga implements Serializable {
 	private Usuario usuario;
 	
 	@NotNull
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JsonBackReference
 	private Conector conector;
-	
-	@OneToOne(fetch=FetchType.LAZY)
-	private Reserva reserva;
 	
 	@NotNull
 	private Timestamp horaInicio;
 	
 	private Timestamp horaFin;
+	private Timestamp horaInicioReserva;
+	private Timestamp horaFinReserva;
+	private Timestamp horaDesconexion;
 	private Boolean finalizada;
 	private Boolean facturable;
 	private Double cargoFactura;
+	private Boolean cargaConReserva;
+	private Double porcentaje;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	private EstadoCarga estadoCarga;
 	
 	public Integer getId() {
 		return id;
@@ -69,14 +73,6 @@ public class Carga implements Serializable {
 	
 	public void setConector(Conector conector) {
 		this.conector = conector;
-	}
-	
-	public Reserva getReserva() {
-		return reserva;
-	}
-	
-	public void setReserva(Reserva reserva) {
-		this.reserva = reserva;
 	}
 	
 	public Timestamp getHoraInicio() {
@@ -117,6 +113,54 @@ public class Carga implements Serializable {
 	
 	public void setCargoFactura(Double cargoFactura) {
 		this.cargoFactura = cargoFactura;
+	}
+
+	public Boolean getCargaConReserva() {
+		return cargaConReserva;
+	}
+
+	public void setCargaConReserva(Boolean cargaConReserva) {
+		this.cargaConReserva = cargaConReserva;
+	}
+
+	public EstadoCarga getEstadoCarga() {
+		return estadoCarga;
+	}
+
+	public void setEstadoCarga(EstadoCarga estadoCarga) {
+		this.estadoCarga = estadoCarga;
+	}
+
+	public Timestamp getHoraInicioReserva() {
+		return horaInicioReserva;
+	}
+
+	public void setHoraInicioReserva(Timestamp horaInicioReserva) {
+		this.horaInicioReserva = horaInicioReserva;
+	}
+
+	public Timestamp getHoraFinReserva() {
+		return horaFinReserva;
+	}
+
+	public void setHoraFinReserva(Timestamp horaFinReserva) {
+		this.horaFinReserva = horaFinReserva;
+	}
+
+	public Timestamp getHoraDesconexion() {
+		return horaDesconexion;
+	}
+
+	public void setHoraDesconexion(Timestamp horaDesconexion) {
+		this.horaDesconexion = horaDesconexion;
+	}
+
+	public Double getPorcentaje() {
+		return porcentaje;
+	}
+
+	public void setPorcentaje(Double porcentaje) {
+		this.porcentaje = porcentaje;
 	}
 	
 }

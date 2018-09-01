@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -21,12 +23,19 @@ public class Tarifa implements Serializable {
 	@NotNull
 	private Double precioKwh;
 	
-	@NotNull
 	private String tipoCarga;
+	
+	@NotNull
+	@ManyToOne(fetch=FetchType.EAGER)
+	private Operador operador;
 	
 	private Double precioServicioMinimo;
 	private Double precioServicioAdicional;
+	
+	@NotNull
 	private Timestamp fechaCreacion;
+	
+	@NotNull
 	private Timestamp fechaActualizacion;
 	
 	public Integer getId() {

@@ -2,8 +2,10 @@ package com.plugyourcar.backend.dto;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CargaResumenDTO {
 
 	@JsonProperty
