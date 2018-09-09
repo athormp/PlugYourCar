@@ -2,6 +2,7 @@ package com.plugyourcar.backend.services.impl;
 
 import java.sql.Timestamp;
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import com.plugyourcar.backend.dto.CargaDetalleDTO;
 import com.plugyourcar.backend.dto.CargaResumenDTO;
+import com.plugyourcar.backend.dto.FechasReservaDTO;
 import com.plugyourcar.backend.exceptions.CargaException;
 import com.plugyourcar.backend.exceptions.ConectorException;
 import com.plugyourcar.backend.exceptions.OperacionNoAdmitidaException;
@@ -109,6 +111,23 @@ public class CargaServiceImpl implements CargaService {
 		}
 		return cargasResumenDTO;
 	}
+	
+	// Método para obtener todas las reservas de un conector en los 7 días siguientes a la hora de la petición
+	
+	public List<CargaResumenDTO> getReservas(Integer idConector) {
+
+		// Se recupera el conector
+		Conector conector = conectorRepository.getOne(idConector);
+		List<Carga> reservas = cargaRepository.findAllByConector(conector);
+		List<CargaResumenDTO> cargasResumenDTO = new ArrayList<CargaResumenDTO>();
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.addMappings(ToCargaResumenMapping);
+		for (Carga carga : reservas) {
+			CargaResumenDTO cargaResumenDTO = modelMapper.map(carga, CargaResumenDTO.class);
+			cargasResumenDTO.add(cargaResumenDTO);
+		}
+		return cargasResumenDTO;
+	}
 
 	// Método para obtener el detalle de una carga iniciada
 	public CargaDetalleDTO getCarga(Integer idCarga) {
@@ -139,7 +158,7 @@ public class CargaServiceImpl implements CargaService {
 	// operación
 	// marcada en la request
 	@Transactional
-	public void iniciarCarga(Integer idConector, Boolean cargaConReserva) throws SaldoInsuficienteException {
+	public void iniciarCarga(Integer idConector, Boolean cargaConReserva, FechasReservaDTO fechasReserva) throws SaldoInsuficienteException {
 
 		Carga carga = new Carga();
 		StringBuilder errorMessage = new StringBuilder();
@@ -171,7 +190,8 @@ public class CargaServiceImpl implements CargaService {
 					+ " a un operador que no admite iniciar cargas desde la aplicación");
 			throw new ConectorException(conector.getId().toString(), errorMessage);
 		}
-
+		// Se asigna usuario a la carga
+		carga.setUsuario(usuario);
 		// Si la petición es para iniciar una carga sin reserva se
 		// cambia el estado del conector a CARGANDO, identificador 2
 		if (!cargaConReserva) {
@@ -179,7 +199,7 @@ public class CargaServiceImpl implements CargaService {
 			if (conector.getEquipoSuministro().getAdmiteReserva() != null
 					&& conector.getEquipoSuministro().getAdmiteReserva()) {
 				log.info("Intentando iniciar una carga sobre el conector con id: "
-						+ conector.getEstadoConector().getId() + " no libre o no integrado");
+						+ conector.getEstadoConector().getId());
 				errorMessage.append(
 						"El conector no admite inicio directo de cargas, previamente debe realizarse una reserva");
 				throw new OperacionNoAdmitidaException(conector.getId().toString(), errorMessage);
@@ -187,21 +207,50 @@ public class CargaServiceImpl implements CargaService {
 			conector.setEstadoConector(estadoConectorRepository.getOne(2));
 			log.info("Actualizado estado del conector: " + conector.getId() + " a CARGANDO");
 
-			// Se asigna usuario, conector, hora_inicio, si es con reserva
-			// previa y se cambia el estado a CARGANDO
-			carga.setUsuario(usuario);
+			// Se asigna conector, hora_inicio, 
+			// y se cambia el estado a CARGANDO
 			carga.setConector(conector);
 			carga.setHoraInicio(new java.sql.Timestamp(Calendar.getInstance().getTime().getTime()));
 			carga.setCargaConReserva(cargaConReserva);
 			carga.setEstadoCarga(estadoCargaRepository.getOne(2));
 			cargaRepository.saveAndFlush(carga);
 			recalcularEstadoOcupacion(conector);
+		} else {
+			// Si la petición es para iniciar un proceso de reserva se mantiene el conector libre, 
+			// se aceptan reservas con mínimo 15 minutos de antelación a la fecha actual.
+			// Se comprueba que el equipo admite inicio directo de carga
+			if (conector.getEquipoSuministro().getAdmiteReserva() != null
+				&& !conector.getEquipoSuministro().getAdmiteReserva()) {
+				log.info("Intentando iniciar una carga sobre el conector con id: "
+					+ conector.getEstadoConector().getId());
+				errorMessage.append("El conector no funciona por sistema de reservas");
+				throw new OperacionNoAdmitidaException(conector.getId().toString(), errorMessage);
+			}
+			// Se valida que la fecha de inicio es 15 minutos anterior a ahora y que la fecha de 
+			// fin no es inferior a la de inicio
+			LocalDateTime inicio = LocalDateTime.parse(fechasReserva.getFechaInicio().replace("Z", ""));
+			LocalDateTime now = LocalDateTime.now();
+			Duration duration = Duration.between(inicio, now);
+		    long diff = duration.getSeconds();
+			if (diff > 900 || LocalDateTime.parse(fechasReserva.getFechaFin().replace("Z", ""))
+					.isBefore(LocalDateTime.parse(fechasReserva.getFechaInicio().replace("Z", "")))) {
+				// Se asigna conector, hora inicio reserva y hora fin reserva
+				log.info("Las fechas de solicitud de la reserva sobre el conector: " + idConector + " no son correctas");
+				errorMessage.append("Las fechas de solicitud de la reserva sobre el conector: " + idConector + " no son correctas");
+				throw new CargaException(conector.getId().toString(), errorMessage);
+			}
+			carga.setConector(conector);
+			carga.setCargaConReserva(cargaConReserva);
+			carga.setHoraInicioReserva(Timestamp.from(Instant.parse(fechasReserva.getFechaInicio())));
+			carga.setHoraFinReserva(Timestamp.from(Instant.parse(fechasReserva.getFechaFin())));
+			carga.setEstadoCarga(estadoCargaRepository.getOne(1));
+			cargaRepository.saveAndFlush(carga);
 		}
 	}
 	
 	// Método para finalizar una carga desde la aplicación. El usuario en este momento 
 	// es cuando desconecta de la batería de su vehículo el conector, se emite la factura final
-	// con los cargso adicionales que correspondan en su caso
+	// con los cargos adicionales que correspondan en su caso
 	@Transactional
 	public CargaDetalleDTO finalizarCarga(Integer idCarga) {
 		

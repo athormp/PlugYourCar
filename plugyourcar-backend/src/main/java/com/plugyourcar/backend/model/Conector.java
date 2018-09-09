@@ -37,10 +37,6 @@ public class Conector implements Serializable{
 	@NotNull
 	@ManyToOne(fetch=FetchType.EAGER)
 	private EstadoConector estadoConector;
-
-	@OneToMany(mappedBy="conector",fetch=FetchType.LAZY)
-	@JsonManagedReference
-	private Set<Reserva> reservas;
 	
 	@OneToMany(mappedBy="conector",fetch=FetchType.LAZY)
 	@JsonManagedReference
@@ -76,14 +72,6 @@ public class Conector implements Serializable{
 
 	public void setEstadoConector(EstadoConector estadoConector) {
 		this.estadoConector = estadoConector;
-	}
-
-	public Set<Reserva> getReservas() {
-		return reservas;
-	}
-
-	public void setReservas(Set<Reserva> reservas) {
-		this.reservas = reservas;
 	}
 
 	public Set<Carga> getCargas() {

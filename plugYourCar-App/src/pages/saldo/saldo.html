@@ -1,0 +1,26 @@
+<ion-header>
+    <app-header></app-header>
+</ion-header>
+<ion-content class="outer-content">
+    <ion-item>
+        <ion-label>Cantidad Disponible: {{saldo.cantidad}}€</ion-label>
+    </ion-item>
+    <ion-item>
+        <img src="assets/saldo/saldo.png" class="logo" />
+    </ion-item>
+    <ion-item text-center color="secondary">RECARGAR SALDO</ion-item>
+    <ion-item *ngIf="mensajeError">
+            <ion-label>{{mensajeError}}</ion-label>
+        </ion-item>
+    <ion-item>
+        <ion-label>Seleccione cantidad:</ion-label>
+        <ion-select [(ngModel)]="cantidad">
+            <ion-option *ngFor="let cantidad of cantidades" [value]="cantidad">{{cantidad.name}}</ion-option>
+        </ion-select>
+    </ion-item>
+    <ion-row>
+        <ion-col center text-center>
+            <button ion-button full color="secondary" (click)="cargarSaldo(cantidad)">Cargar Saldo</button>
+        </ion-col>
+    </ion-row>
+</ion-content>

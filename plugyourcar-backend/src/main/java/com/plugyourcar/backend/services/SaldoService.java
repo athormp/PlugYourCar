@@ -1,9 +1,10 @@
 package com.plugyourcar.backend.services;
 
-import com.plugyourcar.backend.model.Saldo;
+import com.plugyourcar.backend.dto.SaldoDTO;
 
 public interface SaldoService {
-	
-	Saldo consultarSaldo(String userName);
 
+	SaldoDTO consultarSaldo();
+	void cargarSaldo(SaldoDTO saldo);
+	
 }

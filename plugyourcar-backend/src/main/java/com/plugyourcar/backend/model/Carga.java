@@ -35,9 +35,7 @@ public class Carga implements Serializable {
 	@JsonBackReference
 	private Conector conector;
 	
-	@NotNull
 	private Timestamp horaInicio;
-	
 	private Timestamp horaFin;
 	private Timestamp horaInicioReserva;
 	private Timestamp horaFinReserva;

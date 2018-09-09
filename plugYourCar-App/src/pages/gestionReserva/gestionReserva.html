@@ -1,0 +1,26 @@
+<ion-header>
+        <app-header></app-header>
+</ion-header>
+<ion-content>
+        <ion-list>
+                <ion-item>
+                    <ion-label>Fecha/Hora Inicio Reserva: </ion-label>
+                    <ion-datetime displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD/MM/YYYY HH:mm" [(ngModel)]="reservaFechas.startTime" 
+                        (ionChange)="revisarSolapamientos()" [minuteValues]="minuteValues" [min]="minDate" [max]="maxDate"></ion-datetime>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Fecha/Hora Fin Reserva: </ion-label>
+                    <ion-datetime displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD/MM/YYYY HH:mm" [(ngModel)]="reservaFechas.endTime" [min]="minDate"
+                    [max]="maxDate" [minuteValues]="minuteValues"></ion-datetime>
+                </ion-item>
+                <button ion-button block icon-only color="primary" (click)="realizarReserva()">
+                        <ion-icon name="calendar" color="light">RESERVAR</ion-icon>
+                </button>
+        </ion-list>
+        <ion-navbar color="secondary">
+                <ion-title>{{viewTitle}}</ion-title>
+        </ion-navbar>
+        <calendar [eventSource]="eventSource" [calendarMode]="calendar.mode" [timeInterval]="30" [currentDate]="calendar.currentDate"
+                [locale]="calendar.locale" step="15" class="calendar" (onTitleChanged)="onViewTitleChanged($event)">
+        </calendar>
+</ion-content>

@@ -7,8 +7,6 @@ import { Constants } from '../../constants/constants';
 @Injectable()
 export class RegistroService {
 
-  //baseUrl:string = Constants.SERVER_URL;
-
   constructor(private http: HttpClient) {
   }
 

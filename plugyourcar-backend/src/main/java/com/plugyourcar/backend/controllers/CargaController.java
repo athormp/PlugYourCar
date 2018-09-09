@@ -4,13 +4,16 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.plugyourcar.backend.dto.CargaDetalleDTO;
 import com.plugyourcar.backend.dto.CargaResumenDTO;
+import com.plugyourcar.backend.dto.FechasReservaDTO;
 import com.plugyourcar.backend.exceptions.CargaException;
+import com.plugyourcar.backend.exceptions.ConectorException;
 import com.plugyourcar.backend.exceptions.OperacionNoAdmitidaException;
 import com.plugyourcar.backend.exceptions.SaldoInsuficienteException;
 import com.plugyourcar.backend.services.CargaService;
@@ -28,6 +31,12 @@ public class CargaController {
     	return cargaService.getCarga(idCarga);
     }
     
+//    @RequestMapping(method = RequestMethod.GET)
+//    public List<CargaResumenDTO> getReservas
+//    		(@PathVariable("idConector") Integer idConector) {
+//    	return cargaService.getReservas(idConector);
+//    }
+    
     @RequestMapping(method = RequestMethod.GET)
     public List<CargaResumenDTO> getCargas() {
     	return cargaService.getCargas();
@@ -35,9 +44,11 @@ public class CargaController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "{idConector}/{cargaConReserva}")
 	public void crearCarga(@PathVariable("idConector") Integer idConector,
-						   @PathVariable("cargaConReserva") Boolean cargaConReserva)
-						   throws SaldoInsuficienteException, OperacionNoAdmitidaException {
-		cargaService.iniciarCarga(idConector, cargaConReserva);
+						   @PathVariable("cargaConReserva") Boolean cargaConReserva,
+						   @RequestBody FechasReservaDTO fechasReserva)
+						   throws SaldoInsuficienteException, OperacionNoAdmitidaException, 
+						   ConectorException {
+		cargaService.iniciarCarga(idConector, cargaConReserva, fechasReserva);
 	}
     
     @RequestMapping(method = RequestMethod.PUT, value="{idCarga}")

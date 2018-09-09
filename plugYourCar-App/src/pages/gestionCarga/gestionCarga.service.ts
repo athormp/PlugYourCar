@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { Constants } from '../../constants/constants';
+import { FechasReserva } from '../../model/fechasReserva';
 
 // servicio para hacer las peticiones REST relacionadas con las cargas y reservas
 @Injectable()
@@ -20,9 +21,9 @@ export class GestionCargaService {
     return this.http.get(Constants.SERVER_URL + '/carga/' + idCarga);
   }
 
-  iniciarCarga(idConector: string, cargaConReserva): Observable<any> {
+  iniciarCarga(idConector: string, cargaConReserva: boolean, fechasReserva: FechasReserva): Observable<any> {
     console.log('Iniciando carga para el conector: ' + idConector);
-    return this.http.post(Constants.SERVER_URL + '/carga/' + idConector + "/" + cargaConReserva, null);
+    return this.http.post(Constants.SERVER_URL + '/carga/' + idConector + "/" + cargaConReserva, fechasReserva);
   }
 
   finalizarCarga(idCarga: string): Observable<any> {

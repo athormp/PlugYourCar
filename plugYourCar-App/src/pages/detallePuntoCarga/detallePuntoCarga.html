@@ -121,7 +121,7 @@
                                 Iniciar Carga
                             </button>
                         </ion-col>
-                        <ion-col *ngIf="equipoSuministro.admiteReserva">
+                        <ion-col *ngIf="equipoSuministro.admiteReserva" (click)="iniciarReserva(equipoSuministro)">
                             <button ion-button block icon-start color="orange">
                                 <ion-icon name="calendar" color="light"></ion-icon>
                                 <div ion-text color="light">Reservar</div>

@@ -64,10 +64,6 @@ public class Usuario implements Serializable, UserDetails {
 	
 	@OneToMany(mappedBy="usuario",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	@JsonManagedReference
-	private List<Reserva> reservas;
-	
-	@OneToMany(mappedBy="usuario",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
-	@JsonManagedReference
 	private List<Carga> cargas;
 
 	public Integer getId() {
@@ -150,14 +146,6 @@ public class Usuario implements Serializable, UserDetails {
 
 	public void setLogins(List<Login> logins) {
 		this.logins = logins;
-	}
-
-	public List<Reserva> getReservas() {
-		return reservas;
-	}
-
-	public void setReservas(List<Reserva> reservas) {
-		this.reservas = reservas;
 	}
 
 	public List<Carga> getCargas() {

@@ -1,6 +1,7 @@
-import { Platform, ViewController, NavParams, LoadingController } from 'ionic-angular';
+import { Platform, ViewController, NavParams, LoadingController, NavController } from 'ionic-angular';
 import { Component } from '@angular/core';
 import { GestionCargaService } from '../gestionCarga/gestionCarga.service';
+import { GestionReservaPage } from '../gestionReserva/gestionReserva';
 
 @Component({
   selector: 'seleccionarConectorModal',
@@ -21,7 +22,8 @@ export class SeleccionarConectorModal {
     public params: NavParams,
     public viewCtrl: ViewController,
     private gestionCargaService: GestionCargaService,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private navCtrl: NavController
   ) {
     this.conectoresLibres = this.params.get('conectoresLibres');
     this.tipoOperacionCarga = this.params.get('tipoOperacionCarga');
@@ -35,27 +37,30 @@ export class SeleccionarConectorModal {
     if (this.idConector === undefined) {
       this.errorMessage = "Debe seleccionar un conector para poder iniciar el proceso de carga";
     } else {
-      this.gestionCargaService.iniciarCarga(this.idConector, false).subscribe(
-        data => {
-          const loader = this.loadingCtrl.create({
-            content: "Autorizando conexión por parte del operador de carga",
-            duration: 5000
-          });
-          loader.present();
-          this.viewCtrl.dismiss();
-        },
-        error => {
-          console.log(error);
-          if (error.status === 401) {
+      if (this.tipoOperacionCarga) {
+        this.gestionCargaService.iniciarCarga(this.idConector, false, null).subscribe(
+          data => {
+            const loader = this.loadingCtrl.create({
+              content: "Autorizando conexión por parte del operador de carga",
+              duration: 5000
+            });
+            loader.present();
             this.viewCtrl.dismiss();
+          },
+          error => {
+            console.log(error);
+            if (error.status === 401) {
+              this.viewCtrl.dismiss();
+            }
+            if (error.error.errorCode === '1002') {
+              console.log(error.error.errorCode);
+              this.errorMessage = error.error.errorMessage;
+            }
           }
-          if (error.error.errorCode === '1002') {
-            console.log(error.error.errorCode);
-            this.errorMessage = error.error.errorMessage;
-          }
-        }
-      );
+        );
+      } else {
+          this.navCtrl.setRoot(GestionReservaPage);
+      }
     }
   }
-
 }

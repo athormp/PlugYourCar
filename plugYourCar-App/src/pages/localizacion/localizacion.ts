@@ -80,7 +80,7 @@ export class LocalizacionPage {
         }
         this.posicion.latitud = position.coords.latitude;
         this.posicion.latitud = position.coords.longitude;
-        this.posicion.radio = this.radio;
+        this.posicion.radio = this.radio.id;
         this.refrescarLocalizacionesProximas();
         this.loadMap();
       })
