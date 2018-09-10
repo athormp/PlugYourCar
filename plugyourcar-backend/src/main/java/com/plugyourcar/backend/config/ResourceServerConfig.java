@@ -30,7 +30,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 anonymous().disable()
                 .authorizeRequests()
                 .antMatchers("/users/**").access("hasRole('ROLE_USER')")
-                //.antMatchers("/oauth/token").permitAll()
+                .antMatchers("/saldo").permitAll()
                 .antMatchers("/carga/**").authenticated()
                 .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
 	}
